@@ -7,7 +7,8 @@ class XtbModel(BaseModel):
         alias_generator=to_camel,
         populate_by_name=True,
         from_attributes=True,
+        use_enum_values=True,
     )
 
-    def __call__(self) -> dict:
-        return self.model_dump(by_alias=True)
+    def dict(self, **kwargs) -> dict:
+        return self.model_dump(by_alias=True, **kwargs)

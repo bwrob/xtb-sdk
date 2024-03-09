@@ -5,6 +5,7 @@ import ssl
 import time
 
 from xtb_sdk.credentials import get_credentials
+from xtb_sdk.request import XtBCommand, XtbRequest
 
 
 # logger properties
@@ -48,15 +49,28 @@ class JsonSocket(object):
         self._receivedData = ""
 
     def connect(self):
+        """
+        Connects to the server at the specified address and port.
+        Retries connection up to API_MAX_CONN_TRIES times.
+
+        Returns:
+            bool: True if connection successful, False otherwise.
+        """
+        # Try to connect to the server
         for i in range(API_MAX_CONN_TRIES):
             try:
+                # Connect to the server
                 self.socket.connect((self.address, self.port))
             except socket.error as msg:
+                # Log error and wait
                 logger.error("SockThread Error: %s" % msg)
                 time.sleep(0.25)
                 continue
+            # Log successful connection
             logger.info("Socket connected")
+            # Connection successful
             return True
+        # Maximum number of connection tries reached
         return False
 
     def _sendObj(self, obj):
@@ -188,7 +202,7 @@ def main():
     client = APIClient()
 
     # connect to RR socket, login
-    loginResponse = client.execute(loginCommand(**credentials()))
+    loginResponse = client.execute(loginCommand(**credentials.dict()))
     print(loginResponse)
 
     # check if user logged in correctly
@@ -201,8 +215,9 @@ def main():
     print(ssid)
 
     # second method of invoking commands
-    resp = client.commandExecute("getAllSymbols")
+    resp = client.execute(XtbRequest(command=XtBCommand.GET_ALL_SYMBOLS).dict())
     print(resp)
+    print(type(resp))
 
     # gracefully close RR socket
     client.disconnect()
