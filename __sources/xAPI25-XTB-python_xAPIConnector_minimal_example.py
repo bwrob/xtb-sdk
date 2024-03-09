@@ -3,10 +3,13 @@ import logging
 import socket
 import ssl
 import time
+from pprint import pprint
+
+import pandas as pd
 
 from xtb_sdk.credentials import get_credentials
 from xtb_sdk.request import XtBCommand, XtbRequest
-
+from xtb_sdk.response import XtbResponse, XtbSuccess
 
 # logger properties
 logger = logging.getLogger("jsonSocket")
@@ -210,14 +213,11 @@ def main():
         print("Login failed. Error code: {0}".format(loginResponse["errorCode"]))
         return
 
-    # get ssId from login response
-    ssid = loginResponse["streamSessionId"]
-    print(ssid)
-
-    # second method of invoking commands
     resp = client.execute(XtbRequest(command=XtBCommand.GET_ALL_SYMBOLS).dict())
-    print(resp)
-    print(type(resp))
+    resp = XtbSuccess.model_validate(resp)
+    pprint(resp.return_data[:2])
+    df = pd.DataFrame([item.dict() for item in resp.return_data])
+    df.to_csv("all_symbols.csv", sep=";")
 
     # gracefully close RR socket
     client.disconnect()
