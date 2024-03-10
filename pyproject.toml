@@ -15,10 +15,8 @@ packages = [{ include = "xtb_sdk" }, ]
 python = "^3.11"
 numpy = "^1.26"
 pandas = "^2.2.0"
-websocket = "^0.2.1"
-websocket-client = "^1.7.0"
-openpyxl = "^3.1.2"
 pydantic = "^2.6.3"
+
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["jupyter"], version = "^24.0"}
@@ -28,7 +26,8 @@ jupyter = "^1.0"
 pre-commit = "^3.5"
 pylint = "^3.1.0"
 isort = "^5.13.2"
-
+types-pyyaml = "^6.0.12.12"
+pandas-stubs = "^2.2.0.240218"
 
 [tool.black]
 target-version = ["py312"]
@@ -45,6 +44,12 @@ blank = true
 [tool.isort]
 profile = "black"
 
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+explicit_package_bases = true
+exclude = ['^__source']
 
 [tool.pylint.main]
 # Analyse import fallback blocks. This can be used to support both Python 2 and 3

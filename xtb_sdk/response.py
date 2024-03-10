@@ -29,6 +29,9 @@ class ResponseStreamSession(Response):
     stream_session_id: str
 
 
+ResponseType = ResponseSuccess | ResponseError | ResponseStreamSession | None
+
+
 if __name__ == "__main__":
     test_dict = {
         "status": True,

@@ -10,7 +10,12 @@ from xtb_sdk.consts import DEFAULT_XAPI_ADDRESS, DEFAULT_XAPI_PORT, LOGGER_NAME
 from xtb_sdk.credentials import Credentials
 from xtb_sdk.exceptions import LoginErrorException
 from xtb_sdk.request import Command, Request
-from xtb_sdk.response import ResponseError, ResponseStreamSession, ResponseSuccess
+from xtb_sdk.response import (
+    ResponseError,
+    ResponseStreamSession,
+    ResponseSuccess,
+    ResponseType,
+)
 
 logger = logging.getLogger(LOGGER_NAME)
 
@@ -50,7 +55,7 @@ class APIClient(Socket):
     def execute(
         self,
         request: Request,
-    ) -> ResponseSuccess | ResponseError | None:
+    ) -> ResponseType:
         """
         Execute a request.
 
