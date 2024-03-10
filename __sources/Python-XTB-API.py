@@ -1,3 +1,5 @@
+# pylint: skip-file
+
 import json
 from datetime import datetime, timedelta
 

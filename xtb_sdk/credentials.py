@@ -1,6 +1,4 @@
-"""
-Module to retrieve credentials from a specified path or default location.
-"""
+"""Module to retrieve credentials from a specified path or default location."""
 
 from pathlib import Path
 from typing import Optional
@@ -15,23 +13,23 @@ __CREDENTIALS_FILE = "credentials.yaml"
 
 
 class Credentials(DataModel):
-    """
-    Model to store credentials.
-    """
+    """Model to store credentials."""
+
     user_id: int
     password: StrictStr
 
 
 def get_credentials(path: Optional[str] = None) -> Credentials:
     """
-    Function to retrieve credentials from a specified path or default location.
-    If no path is provided, the default location is used.
+    Function to retrieve credentials from a specified path or default location. If no
+    path is provided, the default location is used.
 
     Args:
         path: Optional[str]
 
     Returns:
         Credentials
+
     """
     if not path:
         path = str(Path.home() / __CREDENTIALS_PATH / __CREDENTIALS_FILE)

@@ -1,4 +1,4 @@
-# -*- coding utf-8 -*-
+# pylint: skip-file
 
 """
 XTBApi.api
@@ -71,20 +71,20 @@ def _get_data(command, **parameters):
 
 
 def _check_mode(mode):
-    """check if mode acceptable"""
+    """Check if mode acceptable."""
     modes = [x.value for x in MODES]
     if mode not in modes:
         raise ValueError("mode must be in {}".format(modes))
 
 
 def _check_period(period):
-    """check if period is acceptable"""
+    """Check if period is acceptable."""
     if period not in [x.value for x in PERIOD]:
         raise ValueError("Period: {} not acceptable".format(period))
 
 
 def _check_volume(volume):
-    """normalize volume"""
+    """Normalize volume."""
     if not isinstance(volume, float):
         try:
             return float(volume)
@@ -95,7 +95,7 @@ def _check_volume(volume):
 
 
 class BaseClient(object):
-    """main client class"""
+    """Main client class."""
 
     def __init__(self):
         self.ws = None
@@ -120,7 +120,7 @@ class BaseClient(object):
             return func(*args, **kwargs)
 
     def _send_command(self, dict_data):
-        """send command to api"""
+        """Send command to api."""
         time_interval = time.time() - self._time_last_request
         self.LOGGER.debug("took {} s.".format(time_interval))
         if time_interval < MAX_TIME_INTERVAL:
@@ -140,11 +140,11 @@ class BaseClient(object):
             return res["returnData"]
 
     def _send_command_with_check(self, dict_data):
-        """with check login"""
+        """With check login."""
         return self._login_decorator(self._send_command, dict_data)
 
     def login(self, user_id, password, mode="demo"):
-        """login command"""
+        """Login command."""
         data = _get_data("login", userId=user_id, password=password)
         self.ws = create_connection(f"wss://ws.xtb.com/{mode}")
         response = self._send_command(data)
@@ -154,7 +154,7 @@ class BaseClient(object):
         return response
 
     def logout(self):
-        """logout command"""
+        """Logout command."""
         data = _get_data("logout")
         response = self._send_command(data)
         self.status = STATUS.LOGGED
@@ -162,19 +162,19 @@ class BaseClient(object):
         return response
 
     def get_all_symbols(self):
-        """getAllSymbols command"""
+        """GetAllSymbols command."""
         data = _get_data("getAllSymbols")
         self.LOGGER.info("CMD: get all symbols...")
         return self._send_command_with_check(data)
 
     def get_calendar(self):
-        """getCalendar command"""
+        """GetCalendar command."""
         data = _get_data("getCalendar")
         self.LOGGER.info("CMD: get calendar...")
         return self._send_command_with_check(data)
 
     def get_chart_last_request(self, symbol, period, start):
-        """getChartLastRequest command"""
+        """GetChartLastRequest command."""
         _check_period(period)
         args = {"period": period, "start": start * 1000, "symbol": symbol}
         data = _get_data("getChartLastRequest", info=args)
@@ -186,7 +186,7 @@ class BaseClient(object):
         return self._send_command_with_check(data)
 
     def get_chart_range_request(self, symbol, period, start, end, ticks):
-        """getChartRangeRequest command"""
+        """GetChartRangeRequest command."""
         if not isinstance(ticks, int):
             raise ValueError(f"ticks value {ticks} must be int")
         self._check_login()
@@ -206,30 +206,28 @@ class BaseClient(object):
         return self._send_command_with_check(data)
 
     def get_commission(self, symbol, volume):
-        """getCommissionDef command"""
+        """GetCommissionDef command."""
         volume = _check_volume(volume)
         data = _get_data("getCommissionDef", symbol=symbol, volume=volume)
         self.LOGGER.info(f"CMD: get commission for {symbol} of {volume}...")
         return self._send_command_with_check(data)
 
     def get_margin_level(self):
-        """getMarginLevel command
-        get margin information"""
+        """GetMarginLevel command get margin information."""
         data = _get_data("getMarginLevel")
         self.LOGGER.info("CMD: get margin level...")
         return self._send_command_with_check(data)
 
     def get_margin_trade(self, symbol, volume):
-        """getMarginTrade command
-        get expected margin for volumes used symbol"""
+        """GetMarginTrade command get expected margin for volumes used symbol."""
         volume = _check_volume(volume)
         data = _get_data("getMarginTrade", symbol=symbol, volume=volume)
         self.LOGGER.info(f"CMD: get margin trade for {symbol} of {volume}...")
         return self._send_command_with_check(data)
 
     def get_profit_calculation(self, symbol, mode, volume, op_price, cl_price):
-        """getProfitCalculation command
-        get profit calculation for symbol with vol, mode and op, cl prices"""
+        """GetProfitCalculation command get profit calculation for symbol with vol, mode
+        and op, cl prices."""
         _check_mode(mode)
         volume = _check_volume(volume)
         data = _get_data(
@@ -248,19 +246,19 @@ class BaseClient(object):
         return self._send_command_with_check(data)
 
     def get_server_time(self):
-        """getServerTime command"""
+        """GetServerTime command."""
         data = _get_data("getServerTime")
         self.LOGGER.info("CMD: get server time...")
         return self._send_command_with_check(data)
 
     def get_symbol(self, symbol):
-        """getSymbol command"""
+        """GetSymbol command."""
         data = _get_data("getSymbol", symbol=symbol)
         self.LOGGER.info(f"CMD: get symbol {symbol}...")
         return self._send_command_with_check(data)
 
     def get_tick_prices(self, symbols, start, level=0):
-        """getTickPrices command"""
+        """GetTickPrices command."""
         data = _get_data("getTickPrices", level=level, symbols=symbols, timestamp=start)
         self.LOGGER.info(
             f"CMD: get tick prices of {symbols} from {start} " f"with level {level}..."
@@ -268,8 +266,7 @@ class BaseClient(object):
         return self._send_command_with_check(data)
 
     def get_trade_records(self, trade_position_list):
-        """getTradeRecords command
-        takes a list of position id"""
+        """GetTradeRecords command takes a list of position id."""
         data = _get_data("getTradeRecords", orders=trade_position_list)
         self.LOGGER.info(
             f"CMD: get trade records of len " f"{len(trade_position_list)}..."
@@ -277,20 +274,19 @@ class BaseClient(object):
         return self._send_command_with_check(data)
 
     def get_trades(self, opened_only=True):
-        """getTrades command"""
+        """GetTrades command."""
         data = _get_data("getTrades", openedOnly=opened_only)
         self.LOGGER.info("CMD: get trades...")
         return self._send_command_with_check(data)
 
     def get_trades_history(self, start, end):
-        """getTradesHistory command
-        can take 0 as actual time"""
+        """GetTradesHistory command can take 0 as actual time."""
         data = _get_data("getTradesHistory", end=end, start=start)
         self.LOGGER.info(f"CMD: get trades history from {start} to {end}...")
         return self._send_command_with_check(data)
 
     def get_trading_hours(self, trade_position_list):
-        """getTradingHours command"""
+        """GetTradingHours command."""
         # EDITED IN ALPHA2
         data = _get_data("getTradingHours", symbols=trade_position_list)
         self.LOGGER.info(
@@ -307,13 +303,13 @@ class BaseClient(object):
         return response
 
     def get_version(self):
-        """getVersion command"""
+        """GetVersion command."""
         data = _get_data("getVersion")
         self.LOGGER.info("CMD: get version...")
         return self._send_command_with_check(data)
 
     def ping(self):
-        """ping command"""
+        """Ping command."""
         data = _get_data("ping")
         self.LOGGER.info("CMD: get ping...")
         self._send_command_with_check(data)
@@ -321,7 +317,7 @@ class BaseClient(object):
     def trade_transaction(
         self, symbol, mode, trans_type, volume, stop_loss=0, take_profit=0, **kwargs
     ):
-        """tradeTransaction command"""
+        """TradeTransaction command."""
         # check type
         if trans_type not in [x.value for x in TRANS_TYPES]:
             raise ValueError(f"Type must be in {[x for x in trans_type]}")
@@ -361,13 +357,13 @@ class BaseClient(object):
         return self._send_command_with_check(data)
 
     def trade_transaction_status(self, order_id):
-        """tradeTransactionStatus command"""
+        """TradeTransactionStatus command."""
         data = _get_data("tradeTransactionStatus", order=order_id)
         self.LOGGER.info(f"CMD: trade transaction status for {order_id}...")
         return self._send_command_with_check(data)
 
     def get_user_data(self):
-        """getCurrentUserData command"""
+        """GetCurrentUserData command."""
         data = _get_data("getCurrentUserData")
         self.LOGGER.info("CMD: get user data...")
         return self._send_command_with_check(data)
@@ -387,7 +383,7 @@ class Transaction(object):
 
 
 class Client(BaseClient):
-    """advanced class of client"""
+    """Advanced class of client."""
 
     def __init__(self):
         super().__init__()
@@ -396,7 +392,7 @@ class Client(BaseClient):
         self.LOGGER.info("Client inited")
 
     def check_if_market_open(self, list_of_symbols):
-        """check if market is open for symbol in symbols"""
+        """Check if market is open for symbol in symbols."""
         _td = datetime.today()
         actual_tmsp = _td.hour * 3600 + _td.minute * 60 + _td.second
         response = self.get_trading_hours(list_of_symbols)
@@ -412,7 +408,7 @@ class Client(BaseClient):
         return market_values
 
     def get_lastn_candle_history(self, symbol, timeframe_in_seconds, number):
-        """get last n candles of timeframe"""
+        """Get last n candles of timeframe."""
         acc_tmf = [60, 300, 900, 1800, 3600, 14400, 86400, 604800, 2592000]
         if timeframe_in_seconds not in acc_tmf:
             raise ValueError(
@@ -451,7 +447,7 @@ class Client(BaseClient):
         return candle_history
 
     def update_trades(self):
-        """update trade list"""
+        """Update trade list."""
         trades = self.get_trades()
         self.trade_rec.clear()
         for trade in trades:
@@ -466,14 +462,14 @@ class Client(BaseClient):
         return self.trade_rec
 
     def get_trade_profit(self, trans_id):
-        """get profit of trade"""
+        """Get profit of trade."""
         self.update_trades()
         profit = self.trade_rec[trans_id].actual_profit
         self.LOGGER.info(f"got trade profit of {profit}")
         return profit
 
     def open_trade(self, mode, symbol, volume):
-        """open trade transaction"""
+        """Open trade transaction."""
         if mode in [MODES.BUY.value, MODES.SELL.value]:
             mode = [x for x in MODES if x.value == mode][0]
         elif mode in ["buy", "sell"]:
@@ -495,7 +491,7 @@ class Client(BaseClient):
         return response
 
     def _close_trade_only(self, order_id):
-        """faster but less secure"""
+        """Faster but less secure."""
         trade = self.trade_rec[order_id]
         self.LOGGER.debug(f"closing trade {order_id}")
         try:
@@ -520,7 +516,7 @@ class Client(BaseClient):
         return response
 
     def close_trade(self, trans):
-        """close trade transaction"""
+        """Close trade transaction."""
         if isinstance(trans, Transaction):
             order_id = trans.order_id
         else:
@@ -529,7 +525,7 @@ class Client(BaseClient):
         return self._close_trade_only(order_id)
 
     def close_all_trades(self):
-        """close all trades"""
+        """Close all trades."""
         self.update_trades()
         self.LOGGER.debug(f"closing {len(self.trade_rec)} trades")
         trade_ids = self.trade_rec.keys()

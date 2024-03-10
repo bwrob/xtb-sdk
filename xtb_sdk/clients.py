@@ -1,14 +1,16 @@
+# pylint: skip-file
+
 import json
 import logging
 import socket
 import ssl
-from threading import Thread
 import time
+from threading import Thread
 
 from pydantic import ValidationError
 
 from xtb_sdk.request import Command, Request
-from xtb_sdk.response import ResponseStreamSession, ResponseSuccess, ResponseError
+from xtb_sdk.response import ResponseError, ResponseStreamSession, ResponseSuccess
 
 # logger properties
 logger = logging.getLogger("jsonSocket")
@@ -161,20 +163,16 @@ class APIClient(JsonSocket):
             )
 
     def execute(self, request: Request) -> ResponseSuccess | ResponseError:
-
-        print(request)
-        #TODO: fix this
+        # TODO: fix this
         dictionary = request.dict(exclude_none=True)
         self._sendObj(dictionary)
         resp = self._readObj()
-        print(resp)
         try:
             if request.command == Command.LOGIN:
                 return ResponseStreamSession.model_validate(resp)
             return ResponseSuccess.model_validate(resp)
         except ValidationError:
             return ResponseError.model_validate(resp)
-
 
     def disconnect(self):
         self.close()

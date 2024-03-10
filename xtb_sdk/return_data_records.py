@@ -1,12 +1,13 @@
+"""Module to create response objects for XTB API."""
+
 from pydantic import Field
 
 from xtb_sdk.base_classes import DataModel
 
 
 class SymbolRecord(DataModel):
-    """
-    SymbolRecord model.
-    """
+    """SymbolRecord model."""
+
     ask: float
     bid: float
     category_name: str
