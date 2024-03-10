@@ -17,3 +17,7 @@ class DataModel(BaseModel):
     def dict(self, **kwargs) -> dict:
         """Override dict to include aliasing."""
         return self.model_dump(by_alias=True, **kwargs)
+
+    def json(self, **kwargs) -> str:
+        """Override json to include aliasing."""
+        return self.model_dump_json(by_alias=True, **kwargs)
