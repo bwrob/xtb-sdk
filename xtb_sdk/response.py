@@ -2,11 +2,11 @@
 Module to create response objects for XTB API.
 """
 
-from xtb_sdk.base_classes import XtbModel
+from xtb_sdk.base_classes import DataModel
 from xtb_sdk.return_data_records import TEST_LIST, SymbolRecord
 
 
-class XtbResponse(XtbModel):
+class Response(DataModel):
     """
     Response object for XTB API.
     """
@@ -14,7 +14,7 @@ class XtbResponse(XtbModel):
     status: bool
 
 
-class XtbError(XtbResponse):
+class ResponseError(Response):
     """
     Error response object for XTB API.
     """
@@ -23,12 +23,15 @@ class XtbError(XtbResponse):
     error_descr: str
 
 
-class XtbSuccess(XtbResponse):
+class ResponseSuccess(Response):
     """
     Success response object for XTB API.
     """
 
     return_data: list[SymbolRecord]
+
+class ResponseStreamSession(Response):
+    stream_session_id: str
 
 
 if __name__ == "__main__":
@@ -37,8 +40,8 @@ if __name__ == "__main__":
         "returnData": TEST_LIST,
     }
 
-    test_response = XtbResponse.model_validate(test_dict)
-    test_succes = XtbSuccess.model_validate(test_dict)
+    test_response = Response.model_validate(test_dict)
+    test_succes = ResponseSuccess.model_validate(test_dict)
     from pprint import pprint
 
     pprint(test_response)

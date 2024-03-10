@@ -8,17 +8,16 @@ from typing import Optional
 import yaml
 from pydantic import StrictStr
 
-from xtb_sdk.base_classes import XtbModel
+from xtb_sdk.base_classes import DataModel
 
 __CREDENTIALS_PATH = ".xtb"
 __CREDENTIALS_FILE = "credentials.yaml"
 
 
-class Credentials(XtbModel):
+class Credentials(DataModel):
     """
     Model to store credentials.
     """
-
     user_id: int
     password: StrictStr
 

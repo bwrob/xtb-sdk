@@ -1,9 +1,9 @@
 from pydantic import Field
 
-from xtb_sdk.base_classes import XtbModel
+from xtb_sdk.base_classes import DataModel
 
 
-class SymbolRecord(XtbModel):
+class SymbolRecord(DataModel):
     """
     SymbolRecord model.
     """

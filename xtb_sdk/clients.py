@@ -2,14 +2,13 @@ import json
 import logging
 import socket
 import ssl
+from threading import Thread
 import time
-from pprint import pprint
 
-import pandas as pd
+from pydantic import ValidationError
 
-from xtb_sdk.credentials import get_credentials
-from xtb_sdk.request import XtBCommand, XtbRequest
-from xtb_sdk.response import XtbResponse, XtbSuccess
+from xtb_sdk.request import Command, Request
+from xtb_sdk.response import ResponseStreamSession, ResponseSuccess, ResponseError
 
 # logger properties
 logger = logging.getLogger("jsonSocket")
@@ -52,28 +51,15 @@ class JsonSocket(object):
         self._receivedData = ""
 
     def connect(self):
-        """
-        Connects to the server at the specified address and port.
-        Retries connection up to API_MAX_CONN_TRIES times.
-
-        Returns:
-            bool: True if connection successful, False otherwise.
-        """
-        # Try to connect to the server
         for i in range(API_MAX_CONN_TRIES):
             try:
-                # Connect to the server
                 self.socket.connect((self.address, self.port))
             except socket.error as msg:
-                # Log error and wait
                 logger.error("SockThread Error: %s" % msg)
                 time.sleep(0.25)
                 continue
-            # Log successful connection
             logger.info("Socket connected")
-            # Connection successful
             return True
-        # Maximum number of connection tries reached
         return False
 
     def _sendObj(self, obj):
@@ -174,54 +160,135 @@ class APIClient(JsonSocket):
                 + " retries"
             )
 
-    def execute(self, dictionary):
+    def execute(self, request: Request) -> ResponseSuccess | ResponseError:
+
+        print(request)
+        #TODO: fix this
+        dictionary = request.dict(exclude_none=True)
         self._sendObj(dictionary)
-        return self._readObj()
+        resp = self._readObj()
+        print(resp)
+        try:
+            if request.command == Command.LOGIN:
+                return ResponseStreamSession.model_validate(resp)
+            return ResponseSuccess.model_validate(resp)
+        except ValidationError:
+            return ResponseError.model_validate(resp)
+
 
     def disconnect(self):
         self.close()
 
-    def commandExecute(self, commandName, arguments=None):
-        return self.execute(baseCommand(commandName, arguments))
 
+class APIStreamClient(JsonSocket):
+    def __init__(
+        self,
+        address=DEFAULT_XAPI_ADDRESS,
+        port=DEFUALT_XAPI_STREAMING_PORT,
+        encrypt=True,
+        ssId=None,
+        tickFun=None,
+        tradeFun=None,
+        balanceFun=None,
+        tradeStatusFun=None,
+        profitFun=None,
+        newsFun=None,
+    ):
+        super(APIStreamClient, self).__init__(address, port, encrypt)
+        self._ssId = ssId
 
-# Command templates
-def baseCommand(commandName, arguments=None):
-    if arguments == None:
-        arguments = dict()
-    return dict([("command", commandName), ("arguments", arguments)])
+        self._tickFun = tickFun
+        self._tradeFun = tradeFun
+        self._balanceFun = balanceFun
+        self._tradeStatusFun = tradeStatusFun
+        self._profitFun = profitFun
+        self._newsFun = newsFun
 
+        if not self.connect():
+            raise Exception(
+                "Cannot connect to streaming on "
+                + address
+                + ":"
+                + str(port)
+                + " after "
+                + str(API_MAX_CONN_TRIES)
+                + " retries"
+            )
 
-def loginCommand(userId, password, appName=""):
-    return baseCommand("login", dict(userId=userId, password=password, appName=appName))
+        self._running = True
+        self._t = Thread(target=self._readStream, args=())
+        self._t.setDaemon(True)
+        self._t.start()
 
+    def _readStream(self):
+        while self._running:
+            msg = self._readObj()
+            logger.info("Stream received: " + str(msg))
+            if msg["command"] == "tickPrices":
+                self._tickFun(msg)
+            elif msg["command"] == "trade":
+                self._tradeFun(msg)
+            elif msg["command"] == "balance":
+                self._balanceFun(msg)
+            elif msg["command"] == "tradeStatus":
+                self._tradeStatusFun(msg)
+            elif msg["command"] == "profit":
+                self._profitFun(msg)
+            elif msg["command"] == "news":
+                self._newsFun(msg)
 
-def main():
+    def disconnect(self):
+        self._running = False
+        self._t.join()
+        self.close()
 
-    # enter your login credentials here
-    credentials = get_credentials()
+    def execute(self, dictionary):
+        self._sendObj(dictionary)
 
-    # create & connect to RR socket
-    client = APIClient()
+    def subscribePrice(self, symbol):
+        self.execute(
+            dict(command="getTickPrices", symbol=symbol, streamSessionId=self._ssId)
+        )
 
-    # connect to RR socket, login
-    loginResponse = client.execute(loginCommand(**credentials.dict()))
-    print(loginResponse)
+    def subscribePrices(self, symbols):
+        for symbolX in symbols:
+            self.subscribePrice(symbolX)
 
-    # check if user logged in correctly
-    if loginResponse["status"] == False:
-        print("Login failed. Error code: {0}".format(loginResponse["errorCode"]))
-        return
+    def subscribeTrades(self):
+        self.execute(dict(command="getTrades", streamSessionId=self._ssId))
 
-    resp = client.execute(XtbRequest(command=XtBCommand.GET_ALL_SYMBOLS).dict())
-    resp = XtbSuccess.model_validate(resp)
-    pprint(resp.return_data[:2])
-    df = pd.DataFrame([item.dict() for item in resp.return_data])
-    df.to_csv("all_symbols.csv", sep=";")
+    def subscribeBalance(self):
+        self.execute(dict(command="getBalance", streamSessionId=self._ssId))
 
-    # gracefully close RR socket
-    client.disconnect()
+    def subscribeTradeStatus(self):
+        self.execute(dict(command="getTradeStatus", streamSessionId=self._ssId))
 
+    def subscribeProfits(self):
+        self.execute(dict(command="getProfits", streamSessionId=self._ssId))
 
-if __name__ == "__main__":
-    main()
+    def subscribeNews(self):
+        self.execute(dict(command="getNews", streamSessionId=self._ssId))
+
+    def unsubscribePrice(self, symbol):
+        self.execute(
+            dict(command="stopTickPrices", symbol=symbol, streamSessionId=self._ssId)
+        )
+
+    def unsubscribePrices(self, symbols):
+        for symbolX in symbols:
+            self.unsubscribePrice(symbolX)
+
+    def unsubscribeTrades(self):
+        self.execute(dict(command="stopTrades", streamSessionId=self._ssId))
+
+    def unsubscribeBalance(self):
+        self.execute(dict(command="stopBalance", streamSessionId=self._ssId))
+
+    def unsubscribeTradeStatus(self):
+        self.execute(dict(command="stopTradeStatus", streamSessionId=self._ssId))
+
+    def unsubscribeProfits(self):
+        self.execute(dict(command="stopProfits", streamSessionId=self._ssId))
+
+    def unsubscribeNews(self):
+        self.execute(dict(command="stopNews", streamSessionId=self._ssId))
