@@ -5,10 +5,12 @@ import logging
 import socket
 import ssl
 import time
+from contextlib import contextmanager
 from threading import Thread
 
 from pydantic import ValidationError
 
+from xtb_sdk.credentials import Credentials
 from xtb_sdk.request import Command, Request
 from xtb_sdk.response import ResponseError, ResponseStreamSession, ResponseSuccess
 
@@ -52,7 +54,7 @@ class JsonSocket(object):
         self._decoder = json.JSONDecoder()
         self._receivedData = ""
 
-    def connect(self):
+    def _connect(self):
         for i in range(API_MAX_CONN_TRIES):
             try:
                 self.socket.connect((self.address, self.port))
@@ -100,7 +102,7 @@ class JsonSocket(object):
         msg = self._read()
         return msg
 
-    def close(self):
+    def _close(self):
         logger.debug("Closing socket")
         self._closeSocket()
         if self.socket is not self.conn:
@@ -147,22 +149,37 @@ class JsonSocket(object):
 
 
 class APIClient(JsonSocket):
-    def __init__(
-        self, address=DEFAULT_XAPI_ADDRESS, port=DEFAULT_XAPI_PORT, encrypt=True
-    ):
-        super(APIClient, self).__init__(address, port, encrypt)
-        if not self.connect():
-            raise Exception(
-                "Cannot connect to "
-                + address
-                + ":"
-                + str(port)
-                + " after "
-                + str(API_MAX_CONN_TRIES)
-                + " retries"
-            )
+    """Client for the XTB API."""
 
-    def execute(self, request: Request) -> ResponseSuccess | ResponseError:
+    def __init__(
+        self,
+        credentials: Credentials,
+        address: str = DEFAULT_XAPI_ADDRESS,
+        port: int = DEFAULT_XAPI_PORT,
+        encrypt: bool = True,
+    ):
+        """
+        Constructor for the API client.
+
+        Args:
+            credentials: Credentials object
+            address: IP address
+            port: Port
+            encrypt: Whether to use SSL
+
+        """
+        super(APIClient, self).__init__(address, port, encrypt)
+        self.__stream_session_id = None
+        self.__credentials = credentials
+
+    @property
+    def stream_session_id(self):
+
+        if self.__stream_session_id is None:
+            print("stream session id is not available")
+        return self.__stream_session_id
+
+    def execute(self, request: Request) -> ResponseSuccess | ResponseError | None:
         # TODO: fix this
         dictionary = request.dict(exclude_none=True)
         self._sendObj(dictionary)
@@ -174,8 +191,30 @@ class APIClient(JsonSocket):
         except ValidationError:
             return ResponseError.model_validate(resp)
 
-    def disconnect(self):
-        self.close()
+    @contextmanager
+    def connection(self):
+        """Context manager for the API client."""
+        # connect to RR socket
+        if not self._connect():
+            raise Exception(
+                f"Cannot connect to {self._address} : {self._port} after {API_MAX_CONN_TRIES} retries"
+            )
+
+        # login to RR socket
+        login_response = self.execute(
+            Request(command=Command.LOGIN, arguments=self.__credentials)
+        )
+        if not login_response.status:
+            raise LoginErrorException(
+                f"Login failed. Error code: {login_response.errorCode}"
+            )
+        self._stream_session_id = login_response.stream_session_id
+        print(f"Login successful - {login_response}")
+
+        try:
+            yield self
+        finally:
+            self._close()
 
 
 class APIStreamClient(JsonSocket):
@@ -202,7 +241,7 @@ class APIStreamClient(JsonSocket):
         self._profitFun = profitFun
         self._newsFun = newsFun
 
-        if not self.connect():
+        if not self._connect():
             raise Exception(
                 "Cannot connect to streaming on "
                 + address

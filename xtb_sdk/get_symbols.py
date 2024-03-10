@@ -1,40 +1,35 @@
 """Get all symbols."""
 
-from pprint import pprint
-
 import pandas as pd
 
 from xtb_sdk.clients import APIClient
 from xtb_sdk.credentials import get_credentials
+from xtb_sdk.exceptions import ResponseErrorException
 from xtb_sdk.request import Command, Request
 
 
-def main():
+def get_symbols():
     """Run main."""
     # enter your login credentials here
     credentials = get_credentials()
 
     # create & connect to RR socket
-    client = APIClient()
+    client = APIClient(credentials=credentials)
+    with client.connection() as conn:
+        symbols_response = conn.execute(Request(command=Command.GET_ALL_SYMBOLS))
 
-    # connect to RR socket, login
-    login_response = client.execute(
-        Request(command=Command.LOGIN, arguments=credentials)
+    if not symbols_response.status:
+        raise ResponseErrorException(
+            f"Symbols retrieval failed. Error code: {symbols_response.errorCode}"
+        )
+
+    print(
+        f"Symbols retrieval successful. "
+        f"Retrived {len(symbols_response.return_data)} symbols."
     )
-    print(login_response)
-
-    resp = client.execute(Request(command=Command.GET_ALL_SYMBOLS))
-
-    for item in resp.return_data[:3]:
-        print("\n")
-        pprint(item.dict())
-
-    df = pd.DataFrame([item.dict() for item in resp.return_data])
-    df.to_csv("all_symbols.csv", sep=";")
-
-    # gracefully close RR socket
-    client.disconnect()
+    symbols = pd.DataFrame([item.dict() for item in symbols_response.return_data])
+    symbols.to_csv("all_symbols.csv", sep=";")
 
 
 if __name__ == "__main__":
-    main()
+    get_symbols()
