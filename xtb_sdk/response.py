@@ -1,7 +1,7 @@
 """Module to create response objects for XTB API."""
 
 from xtb_sdk.base_classes import DataModel
-from xtb_sdk.return_data_records import TEST_LIST, SymbolRecord
+from xtb_sdk.return_data_records import SymbolRecord
 
 
 class Response(DataModel):
@@ -30,17 +30,3 @@ class ResponseStreamSession(Response):
 
 
 ResponseType = ResponseSuccess | ResponseError | ResponseStreamSession | None
-
-
-if __name__ == "__main__":
-    test_dict = {
-        "status": True,
-        "returnData": TEST_LIST,
-    }
-
-    test_response = Response.model_validate(test_dict)
-    test_succes = ResponseSuccess.model_validate(test_dict)
-    from pprint import pprint
-
-    pprint(test_response)
-    pprint(test_succes)

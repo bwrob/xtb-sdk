@@ -11,3 +11,7 @@ class LoginErrorException(Exception):
 
 class SocketErrorException(Exception):
     """Socket error response XTB API."""
+
+
+class UnknownResponseError(Exception):
+    """Unknown error response XTB API."""

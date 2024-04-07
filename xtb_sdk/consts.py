@@ -16,3 +16,8 @@ API_SEND_TIMEOUT = 100
 API_MAX_CONN_TRIES = 3
 
 LOGGER_NAME = "xtb_logger"
+ENCODING = "utf-8"
+
+FILE_WRITE = "w"
+FILE_APPEND = "a"
+FILE_READ = "r"
