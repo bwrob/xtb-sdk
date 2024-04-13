@@ -16,6 +16,7 @@ python = "^3.11"
 numpy = "^1.26"
 pandas = "^2.2.0"
 pydantic = "^2.6.3"
+types-openpyxl = "^3.1.0.20240408"
 
 
 [tool.poetry.group.dev.dependencies]
