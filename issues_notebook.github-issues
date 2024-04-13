@@ -2,12 +2,12 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "*Infra*"
+    "value": "Planning, documentation, infra"
   },
   {
     "kind": 2,
     "language": "github-issues",
-    "value": "repo:bwrob/xtb-sdk is:open label:infra\r\n"
+    "value": "repo:bwrob/xtb-sdk is:open label:infra,planning,documentation\r\n"
   },
   {
     "kind": 1,
@@ -32,12 +32,12 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "**Milestone**: fetch and present open possitions and accounting data"
+    "value": "**Milestone**: fetch and present open positions and accounting data"
   },
   {
     "kind": 2,
     "language": "github-issues",
-    "value": "repo:bwrob/xtb-sdk is:open is:issue milestone:\"fetch and present open possitions and accounting data\" "
+    "value": "repo:bwrob/xtb-sdk is:open is:issue milestone:\"fetch and present open positions and accounting data\" "
   },
   {
     "kind": 1,
@@ -48,6 +48,16 @@
     "kind": 2,
     "language": "github-issues",
     "value": "repo:bwrob/xtb-sdk is:open is:issue milestone:\"execute CFD trade on SPY\" "
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "**Milestone**: backtest an alpha based on db data"
+  },
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "repo:bwrob/xtb-sdk is:open is:issue milestone:\"backtest an alpha based on db data\" "
   },
   {
     "kind": 1,
