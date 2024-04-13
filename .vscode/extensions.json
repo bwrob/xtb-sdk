@@ -1,0 +1,30 @@
+{
+    "recommendations": [
+        "codeium.codeium",
+        "file-icons.file-icons",
+        "garytyler.darcula-pycharm",
+        "github.remotehub",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "kevinrose.vsc-python-indent",
+        "magicstack.magicpython",
+        "ms-azuretools.vscode-docker",
+        "ms-python.black-formatter",
+        "ms-python.debugpy",
+        "ms-python.flake8",
+        "ms-python.isort",
+        "ms-python.mypy-type-checker",
+        "ms-python.pylint",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.jupyter-keymap",
+        "ms-toolsai.jupyter-renderers",
+        "ms-toolsai.vscode-jupyter-cell-tags",
+        "ms-toolsai.vscode-jupyter-slideshow",
+        "ms-vscode.vs-keybindings",
+		"oderwat.indent-rainbow",
+        "richie5um2.vscode-sort-json"
+    ],
+    "unwantedRecommendations": []
+}

@@ -1,0 +1,48 @@
+{
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            88
+        ]
+    },
+    "codeium.enableConfig": {
+        "*": true
+    },
+    "editor.mouseWheelZoom": true,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "indentRainbow.includedLanguages": [
+        "python"
+    ],
+    "indentRainbow.updateDelay": 100,
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    "jupyter.askForKernelRestart": false,
+    "python.formatting.provider": "black",
+    "python.languageServer": "Pylance",
+    "python.linting.enabled": true,
+    "python.linting.flake8Args": [
+        // Match what black does.
+        "--max-line-length=88"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    "terminal.integrated.mouseWheelZoom": true,
+    "window.zoomLevel": 2,
+    "workbench.colorTheme": "Darcula Pycharm with Dark GUI",
+    "workbench.iconTheme": "file-icons",
+    "workbench.tree.indent": 16,
+    "workbench.tree.renderIndentGuides": "always"
+}
