@@ -1,0 +1,62 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "*Infra*"
+  },
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "repo:bwrob/xtb-sdk is:open label:infra\r\n"
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "**Milestone**: *live plot of price candles*"
+  },
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "repo:bwrob/xtb-sdk is:open is:issue milestone:\"live plot of price candles \" "
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "**Milestone**: *historical market data in db instance*"
+  },
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "repo:bwrob/xtb-sdk is:open is:issue milestone:\"historical market data in db instance\" "
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "**Milestone**: fetch and present open possitions and accounting data"
+  },
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "repo:bwrob/xtb-sdk is:open is:issue milestone:\"fetch and present open possitions and accounting data\" "
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "**Milestone**: execute CFD trade on SPY"
+  },
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "repo:bwrob/xtb-sdk is:open is:issue milestone:\"execute CFD trade on SPY\" "
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "**Win list**\r\n"
+  },
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "repo:bwrob/xtb-sdk is:closed"
+  }
+]
