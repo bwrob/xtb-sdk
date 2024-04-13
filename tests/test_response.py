@@ -4,7 +4,7 @@ import json
 import os
 
 from xtb_sdk.consts import ENCODING, FILE_READ
-from xtb_sdk.response import ResponseSuccess
+from xtb_sdk.data_model.response import ResponseSuccess
 
 RESPONSE_DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "responses")
 

@@ -4,13 +4,13 @@
 import logging
 from threading import Thread
 
-from xtb_sdk.api_socket import Socket
 from xtb_sdk.consts import (
     API_MAX_CONN_TRIES,
     DEFAULT_XAPI_ADDRESS,
     DEFUALT_XAPI_STREAMING_PORT,
     LOGGER_NAME,
 )
+from xtb_sdk.data_requester.api_socket import Socket
 
 logger = logging.getLogger(LOGGER_NAME)
 

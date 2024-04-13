@@ -6,7 +6,7 @@ from typing import Optional
 import yaml
 from pydantic import StrictStr
 
-from xtb_sdk.base_classes import DataModel
+from xtb_sdk.data_model.base_classes import DataModel
 
 __CREDENTIALS_PATH = ".xtb"
 __CREDENTIALS_FILE = "credentials.yaml"

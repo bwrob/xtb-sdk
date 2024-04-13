@@ -7,7 +7,7 @@ import ssl
 import time
 
 from xtb_sdk.consts import API_MAX_CONN_TRIES, API_SEND_TIMEOUT, LOGGER_NAME
-from xtb_sdk.request import Request
+from xtb_sdk.data_model.request import Request
 
 logger = logging.getLogger(LOGGER_NAME)
 

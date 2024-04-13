@@ -4,11 +4,11 @@ import logging
 
 import pandas as pd
 
-from xtb_sdk.api_client import APIClient
 from xtb_sdk.consts import LOGGER_NAME
-from xtb_sdk.credentials import get_credentials
+from xtb_sdk.data_model.credentials import get_credentials
+from xtb_sdk.data_model.request import Command, Request
+from xtb_sdk.data_requester.api_client import APIClient
 from xtb_sdk.exceptions import ResponseErrorException
-from xtb_sdk.request import Command, Request
 from xtb_sdk.utils import inspect_dataframe
 
 logger = logging.getLogger(LOGGER_NAME)

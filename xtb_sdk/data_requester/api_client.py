@@ -6,7 +6,6 @@ from contextlib import contextmanager
 
 from pydantic import ValidationError
 
-from xtb_sdk.api_socket import Socket
 from xtb_sdk.consts import (
     DEFAULT_XAPI_ADDRESS,
     DEFAULT_XAPI_PORT,
@@ -14,15 +13,16 @@ from xtb_sdk.consts import (
     FILE_WRITE,
     LOGGER_NAME,
 )
-from xtb_sdk.credentials import Credentials
-from xtb_sdk.exceptions import LoginErrorException, UnknownResponseError
-from xtb_sdk.request import Command, Request
-from xtb_sdk.response import (
+from xtb_sdk.data_model.credentials import Credentials
+from xtb_sdk.data_model.request import Command, Request
+from xtb_sdk.data_model.response import (
     ResponseError,
     ResponseStreamSession,
     ResponseSuccess,
     ResponseType,
 )
+from xtb_sdk.data_requester.api_socket import Socket
+from xtb_sdk.exceptions import LoginErrorException, UnknownResponseError
 
 logger = logging.getLogger(LOGGER_NAME)
 

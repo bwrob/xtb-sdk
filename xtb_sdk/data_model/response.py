@@ -1,7 +1,7 @@
 """Module to create response objects for XTB API."""
 
-from xtb_sdk.base_classes import DataModel
-from xtb_sdk.return_data_records import SymbolRecord
+from xtb_sdk.data_model.base_classes import DataModel
+from xtb_sdk.data_model.return_data_records import SymbolRecord
 
 
 class Response(DataModel):
