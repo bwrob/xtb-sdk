@@ -25,7 +25,9 @@
         "ms-vscode.vs-keybindings",
         "oderwat.indent-rainbow",
         "richie5um2.vscode-sort-json",
-        "robbowen.synthwave-vscode"
+        "robbowen.synthwave-vscode",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory"
     ],
     "unwantedRecommendations": []
 }
