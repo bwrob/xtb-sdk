@@ -1,7 +1,7 @@
 """Module to create response objects for XTB API."""
 
-from xtb_sdk.data_model.base_classes import DataModel
-from xtb_sdk.data_model.return_data_records import SymbolRecord
+from xtb_sdk.data_models.base_classes import DataModel
+from xtb_sdk.data_models.return_data_records import SymbolRecord
 
 
 class Response(DataModel):
@@ -29,4 +29,4 @@ class ResponseStreamSession(Response):
     stream_session_id: str
 
 
-ResponseType = ResponseSuccess | ResponseError | ResponseStreamSession | None
+ResponseType = ResponseSuccess | ResponseError | ResponseStreamSession

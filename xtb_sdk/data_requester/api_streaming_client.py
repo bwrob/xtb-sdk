@@ -1,18 +1,17 @@
 # pylint: skip-file
 
 
-import logging
 from threading import Thread
 
-from xtb_sdk.consts import (
+from xtb_sdk.data_requester.api_socket import Socket
+from xtb_sdk.utils.consts import (
     API_MAX_CONN_TRIES,
     DEFAULT_XAPI_ADDRESS,
     DEFUALT_XAPI_STREAMING_PORT,
-    LOGGER_NAME,
 )
-from xtb_sdk.data_requester.api_socket import Socket
+from xtb_sdk.utils.logging import get_logger
 
-logger = logging.getLogger(LOGGER_NAME)
+logger = get_logger()
 
 
 class APIStreamClient(Socket):

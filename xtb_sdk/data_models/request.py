@@ -2,8 +2,8 @@
 
 from enum import StrEnum
 
-from xtb_sdk.data_model.base_classes import DataModel
-from xtb_sdk.data_model.credentials import Credentials
+from xtb_sdk.data_models.base_classes import DataModel
+from xtb_sdk.data_models.credentials import Credentials
 
 
 class Command(StrEnum):

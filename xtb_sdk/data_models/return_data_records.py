@@ -2,7 +2,7 @@
 
 from pydantic import Field
 
-from xtb_sdk.data_model.base_classes import DataModel
+from xtb_sdk.data_models.base_classes import DataModel
 
 
 class SymbolRecord(DataModel):

@@ -1,21 +1,33 @@
 """RR Socket class."""
 
 import json
-import logging
 import socket
 import ssl
 import time
 
-from xtb_sdk.consts import API_MAX_CONN_TRIES, API_SEND_TIMEOUT, LOGGER_NAME
-from xtb_sdk.data_model.request import Request
+from xtb_sdk.data_models.request import Request
+from xtb_sdk.utils.consts import (
+    API_MAX_CONN_TRIES,
+    API_SEND_TIMEOUT,
+    DEFAULT_XAPI_ADDRESS,
+    DEFUALT_XAPI_STREAMING_PORT,
+)
+from xtb_sdk.utils.logging import get_logger
 
-logger = logging.getLogger(LOGGER_NAME)
+logger = get_logger()
+
+StreamSessionId = str
 
 
 class Socket:
     """RR Socket class."""
 
-    def __init__(self, address, port, encrypt=True):
+    def __init__(
+        self,
+        address: str = DEFAULT_XAPI_ADDRESS,
+        port: int = DEFUALT_XAPI_STREAMING_PORT,
+        encrypt=True,
+    ) -> None:
         """Constructor."""
         self._ssl = encrypt
         if not self._ssl:
@@ -30,7 +42,7 @@ class Socket:
         self._decoder = json.JSONDecoder()
         self._received_data = ""
 
-    def _connect(self):
+    def _connect(self) -> bool:
         """Connect to RR socket."""
         for _ in range(API_MAX_CONN_TRIES):
             try:
@@ -43,12 +55,12 @@ class Socket:
             return True
         return False
 
-    def _send_request(self, request: Request):
+    def _send_request(self, request: Request) -> None:
         """Send a request to RR socket."""
         msg = request.json(exclude_none=True)
         self._waiting_send(msg)
 
-    def _waiting_send(self, msg):
+    def _waiting_send(self, msg) -> None:
         """Send a message to RR socket."""
         if self.socket:
             sent = 0

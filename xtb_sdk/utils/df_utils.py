@@ -1,16 +1,16 @@
 """Utility functions."""
 
 from io import StringIO
-from typing import Callable
 
 import pandas as pd
 
-DEFAULT_STREAMER = print
+from xtb_sdk.utils.logging import get_logger
+
+logger = get_logger()
 
 
 def inspect_dataframe(
     data: pd.DataFrame,
-    stream: Callable[[str], None] = DEFAULT_STREAMER,
 ) -> None:
     """
     Inspect the given DataFrame by printing its head, summary, and descriptive
@@ -30,4 +30,4 @@ def inspect_dataframe(
         f"Dataframe summary: \n {info_string} \n"
         f"Dataframe descriptive statistics: \n {data.describe()}\n"
     )
-    stream(inspect_msg)
+    logger.info(inspect_msg)

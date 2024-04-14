@@ -1,12 +1,12 @@
 """Module to retrieve credentials from a specified path or default location."""
 
+from os import PathLike
 from pathlib import Path
-from typing import Optional
 
 import yaml
 from pydantic import StrictStr
 
-from xtb_sdk.data_model.base_classes import DataModel
+from xtb_sdk.data_models.base_classes import DataModel
 
 __CREDENTIALS_PATH = ".xtb"
 __CREDENTIALS_FILE = "credentials.yaml"
@@ -19,7 +19,10 @@ class Credentials(DataModel):
     password: StrictStr
 
 
-def get_credentials(path: Optional[str] = None) -> Credentials:
+CredentialsSource = Credentials | str | PathLike | None
+
+
+def resolve_credentials(source: CredentialsSource) -> Credentials:
     """
     Function to retrieve credentials from a specified path or default location. If no
     path is provided, the default location is used.
@@ -31,7 +34,7 @@ def get_credentials(path: Optional[str] = None) -> Credentials:
         Credentials
 
     """
-    if not path:
+    if not source:
         path = str(Path.home() / __CREDENTIALS_PATH / __CREDENTIALS_FILE)
 
     try:
@@ -41,8 +44,3 @@ def get_credentials(path: Optional[str] = None) -> Credentials:
         raise FileNotFoundError(f"File not found: {path}") from exc
 
     return Credentials(**config)
-
-
-if __name__ == "__main__":
-    cred = get_credentials()
-    print(cred.dict(by_alias=True))
