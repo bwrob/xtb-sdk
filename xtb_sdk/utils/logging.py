@@ -9,5 +9,5 @@ LOGGER_NAME = "xtb_logger"
 def get_logger() -> logging.Logger:
     """Provides a default logger for use in the package."""
     logger = logging.getLogger(LOGGER_NAME)
-    logging.basicConfig(format=LOGGING_FORMAT)
+    logging.basicConfig(format=LOGGING_FORMAT, level=logging.DEBUG)
     return logger
