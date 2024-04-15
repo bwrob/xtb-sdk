@@ -26,7 +26,8 @@
         "richie5um2.vscode-sort-json",
         "robbowen.synthwave-vscode",
         "mhutchie.git-graph",
-        "donjayamanne.githistory"
+        "donjayamanne.githistory",
+        "jgclark.vscode-todo-highlight"
     ],
     "unwantedRecommendations": []
 }

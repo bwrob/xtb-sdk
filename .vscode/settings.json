@@ -13,7 +13,12 @@
     "codeium.enableConfig": {
         "*": true
     },
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.cursorWidth": 3,
+    "editor.fontLigatures": true,
+    "editor.minimap.renderCharacters": false,
     "editor.mouseWheelZoom": true,
+    "editor.stickyScroll.enabled": true,
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
     "flake8.args": [
@@ -37,9 +42,9 @@
     "python.testing.unittestEnabled": false,
     "synthwave84.disableGlow": true,
     "terminal.integrated.mouseWheelZoom": true,
-    "window.zoomLevel": 0.5,
-    "workbench.colorTheme": "SynthWave '84",
-    "workbench.iconTheme": "vs-seti",
-    "workbench.tree.indent": 16,
+    "window.zoomLevel": 0.1,
+    "workbench.colorTheme": "Darcula Pycharm with Dark GUI",
+    "workbench.iconTheme": "file-icons",
+    "workbench.tree.indent": 20,
     "workbench.tree.renderIndentGuides": "always"
 }
