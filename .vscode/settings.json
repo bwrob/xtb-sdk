@@ -10,6 +10,10 @@
             88
         ]
     },
+    "black-formatter.importStrategy": "fromEnvironment",
+    "black-formatter.interpreter": [
+        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
+    ],
     "codeium.enableConfig": {
         "*": true
     },
@@ -24,6 +28,10 @@
     "flake8.args": [
         "--max-line-length=88"
     ],
+    "flake8.importStrategy": "fromEnvironment",
+    "flake8.interpreter": [
+        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
+    ],
     "indentRainbow.includedLanguages": [
         "python"
     ],
@@ -33,6 +41,14 @@
         "black"
     ],
     "jupyter.askForKernelRestart": false,
+    "mypy-type-checker.importStrategy": "fromEnvironment",
+    "mypy-type-checker.interpreter": [
+        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
+    ],
+    "pylint.importStrategy": "fromEnvironment",
+    "pylint.interpreter": [
+        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
+    ],
     "python.languageServer": "Pylance",
     "python.poetryPath": "poetry",
     "python.testing.pytestArgs": [
@@ -42,7 +58,7 @@
     "python.testing.unittestEnabled": false,
     "synthwave84.disableGlow": true,
     "terminal.integrated.mouseWheelZoom": true,
-    "window.zoomLevel": 0.1,
+    "window.zoomLevel": -0.5,
     "workbench.colorTheme": "Darcula Pycharm with Dark GUI",
     "workbench.iconTheme": "file-icons",
     "workbench.tree.indent": 20,
