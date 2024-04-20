@@ -15,3 +15,7 @@ class SocketErrorException(Exception):
 
 class UnknownResponseError(Exception):
     """Unknown error response XTB API."""
+
+
+class UnexpectedResponseError(Exception):
+    """Unknown error response XTB API."""

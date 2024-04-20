@@ -22,3 +22,8 @@ repos:
       entry: poetry run pylint .\\xtb_sdk
       language: system
       types: [ file, python ]
+    - id: mypy
+      name: mypy
+      entry: poetry run mypy --exclude \\__sources\\
+      language: system
+      types: [ file, python ]
