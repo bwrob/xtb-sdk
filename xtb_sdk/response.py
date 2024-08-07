@@ -1,7 +1,13 @@
 """Module to create response objects for XTB API."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from xtb_sdk.base_classes import DataModel
-from xtb_sdk.return_data_records import SymbolRecord
+
+if TYPE_CHECKING:
+    from xtb_sdk.return_data_records import SymbolRecord
 
 
 class Response(DataModel):

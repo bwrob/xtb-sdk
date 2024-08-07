@@ -2,7 +2,9 @@
 
 import json
 import logging
+from collections.abc import Generator
 from contextlib import contextmanager
+from pathlib import Path
 
 from pydantic import ValidationError
 
@@ -15,7 +17,7 @@ from xtb_sdk.consts import (
     LOGGER_NAME,
 )
 from xtb_sdk.credentials import Credentials
-from xtb_sdk.exceptions import LoginErrorException, UnknownResponseError
+from xtb_sdk.exceptions import LoginError, UnknownResponseError
 from xtb_sdk.request import Command, Request
 from xtb_sdk.response import (
     ResponseError,
@@ -41,11 +43,11 @@ class APIClient(Socket):
         port: int = DEFAULT_XAPI_PORT,
         encrypt: bool = True,
         debug: bool = False,
-    ):
-        """
-        Constructor for the API client.
+    ) -> None:
+        """Construct an XTB API client.
 
         Args:
+        ----
             credentials: Credentials object
             address: IP address
             port: Port
@@ -54,68 +56,71 @@ class APIClient(Socket):
 
         """
         super().__init__(address, port, encrypt)
-        self.__stream_session_id = None
+        self.__stream_session_id: str | None = None
         self.__credentials = credentials
         self.__debug = debug
 
     @property
-    def stream_session_id(self):
+    def stream_session_id(self) -> str | None:
         """Get the stream session id."""
         if self.__stream_session_id is None:
-            print("stream session id is not available")
+            pass
         return self.__stream_session_id
 
     def execute(
         self,
         request: Request,
     ) -> ResponseType:
-        """
-        Execute a request.
+        """Execute a request.
 
         Args:
+        ----
             request: Request object
 
         """
         self._send_request(request)
-        resp = self._read()
+        response = self._read()
         if self.__debug:
-            print(resp)
+            pass
         try:
             if request.command == Command.LOGIN:
-                return ResponseStreamSession.model_validate(resp)
-            return ResponseSuccess.model_validate(resp)
+                return ResponseStreamSession.model_validate(response)
+            return ResponseSuccess.model_validate(response)
         except ValidationError:
             # if response is not a success, validate error response
             try:
-                return ResponseError.model_validate(resp)
+                return ResponseError.model_validate(response)
             except ValidationError as e:
                 # if we don't know what the response is, save the response to file
-                with open(UNKNOWN_RESPONSE_PATH, FILE_WRITE, encoding=ENCODING) as f:
-                    f.write(json.dumps(resp))
+                with Path(UNKNOWN_RESPONSE_PATH).open(
+                    FILE_WRITE, encoding=ENCODING
+                ) as file_:
+                    _ = file_.write(json.dumps(response))
+                msg = f"Unknown response, saved to {UNKNOWN_RESPONSE_PATH}"
                 raise UnknownResponseError(
-                    f"Unknown response, saved to {UNKNOWN_RESPONSE_PATH}",
+                    msg,
                 ) from e
 
     @contextmanager
-    def connection(self):
+    def connection(self) -> Generator["APIClient", None, None]:
         """Context manager for the API client."""
         # connect to RR socket
         if not self._connect():
-            raise ConnectionError(f"Cannot connect to {self._address} : {self._port}.")
+            msg = f"Cannot connect to {self._address} : {self._port}."
+            raise ConnectionError(msg)
 
         # login to RR socket
         login_response = self.execute(
             Request(command=Command.LOGIN, arguments=self.__credentials),
         )
         if not login_response.status:
-            raise LoginErrorException(
-                f"Login failed. Error code: {login_response.error_code}",
+            msg = f"Login failed. Error code: {login_response.error_code}"
+            raise LoginError(
+                msg,
             )
         self.__stream_session_id = login_response.stream_session_id
-        print(f"Login successful - {login_response}")
 
         try:
             yield self
         finally:
             self._close()
-            print("Connection closed.")

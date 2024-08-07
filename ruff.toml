@@ -2,26 +2,8 @@ exclude = [
     "__sources",
 ]
 
+line-length = 88
+
 [lint]
-select = [
-    "A",   # flake8-builtins
-    "B",   # flake8-bugbear
-    "COM", # flake8-commas
-    "C",   # pylint-convention
-    "E",   # pycodestyle
-    "ERA", # flake8-eradicate
-    "F",   # pyflakes
-    "FIX", # flake8-fixme
-    "I",   # isort
-    "N",   # pep8-naming
-    "PD",  # pandas-vet
-    "PIE", # flake8-pie
-    "Q",   # flake8-quotes
-    "R",   # refactor
-    "RET", # flake8-return
-    "RSE", # flake8-raise
-    "RUF", # ruff
-    "SIM", # flake8-simplify
-    "UP",  # pyupgrade
-    "W",   # warnings
-]
+select = ["ALL"]
+ignore = ["D211","COM812","ISC001","D213","D203","FA102",]

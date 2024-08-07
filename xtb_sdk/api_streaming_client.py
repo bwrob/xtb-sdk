@@ -28,7 +28,7 @@ class APIStreamClient(Socket):
         tradeStatusFun=None,
         profitFun=None,
         newsFun=None,
-    ):
+    ) -> None:
         super().__init__(address, port, encrypt)
         self._ssId = ssId
 
@@ -55,7 +55,7 @@ class APIStreamClient(Socket):
         self._t.setDaemon(True)
         self._t.start()
 
-    def _readStream(self):
+    def _readStream(self) -> None:
         while self._running:
             msg = self._read()
             logger.info("Stream received: " + str(msg))
@@ -72,15 +72,15 @@ class APIStreamClient(Socket):
             elif msg["command"] == "news":
                 self._newsFun(msg)
 
-    def disconnect(self):
+    def disconnect(self) -> None:
         self._running = False
         self._t.join()
         self.close()
 
-    def execute(self, dictionary):
+    def execute(self, dictionary) -> None:
         self._send_request(dictionary)
 
-    def subscribePrice(self, symbol):
+    def subscribePrice(self, symbol) -> None:
         self.execute(
             {
                 "command": "getTickPrices",
@@ -89,26 +89,26 @@ class APIStreamClient(Socket):
             },
         )
 
-    def subscribePrices(self, symbols):
+    def subscribePrices(self, symbols) -> None:
         for symbolX in symbols:
             self.subscribePrice(symbolX)
 
-    def subscribeTrades(self):
+    def subscribeTrades(self) -> None:
         self.execute({"command": "getTrades", "streamSessionId": self._ssId})
 
-    def subscribeBalance(self):
+    def subscribeBalance(self) -> None:
         self.execute({"command": "getBalance", "streamSessionId": self._ssId})
 
-    def subscribeTradeStatus(self):
+    def subscribeTradeStatus(self) -> None:
         self.execute({"command": "getTradeStatus", "streamSessionId": self._ssId})
 
-    def subscribeProfits(self):
+    def subscribeProfits(self) -> None:
         self.execute({"command": "getProfits", "streamSessionId": self._ssId})
 
-    def subscribeNews(self):
+    def subscribeNews(self) -> None:
         self.execute({"command": "getNews", "streamSessionId": self._ssId})
 
-    def unsubscribePrice(self, symbol):
+    def unsubscribePrice(self, symbol) -> None:
         self.execute(
             {
                 "command": "stopTickPrices",
@@ -117,21 +117,21 @@ class APIStreamClient(Socket):
             },
         )
 
-    def unsubscribePrices(self, symbols):
+    def unsubscribePrices(self, symbols) -> None:
         for symbolX in symbols:
             self.unsubscribePrice(symbolX)
 
-    def unsubscribeTrades(self):
+    def unsubscribeTrades(self) -> None:
         self.execute({"command": "stopTrades", "streamSessionId": self._ssId})
 
-    def unsubscribeBalance(self):
+    def unsubscribeBalance(self) -> None:
         self.execute({"command": "stopBalance", "streamSessionId": self._ssId})
 
-    def unsubscribeTradeStatus(self):
+    def unsubscribeTradeStatus(self) -> None:
         self.execute({"command": "stopTradeStatus", "streamSessionId": self._ssId})
 
-    def unsubscribeProfits(self):
+    def unsubscribeProfits(self) -> None:
         self.execute({"command": "stopProfits", "streamSessionId": self._ssId})
 
-    def unsubscribeNews(self):
+    def unsubscribeNews(self) -> None:
         self.execute({"command": "stopNews", "streamSessionId": self._ssId})

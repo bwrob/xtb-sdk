@@ -15,7 +15,7 @@ logger = logging.getLogger(LOGGER_NAME)
 class Socket:
     """RR Socket class."""
 
-    def __init__(self, address, port, encrypt=True):
+    def __init__(self, address, port, encrypt=True) -> None:
         """Constructor."""
         self._ssl = encrypt
         if not self._ssl:
@@ -30,25 +30,25 @@ class Socket:
         self._decoder = json.JSONDecoder()
         self._received_data = ""
 
-    def _connect(self):
+    def _connect(self) -> bool:
         """Connect to RR socket."""
         for _ in range(API_MAX_CONN_TRIES):
             try:
                 self.socket.connect((self._address, self._port))
             except OSError as msg:
-                logger.error("SockThread Error: %s", msg)
+                logger.exception("SockThread Error: %s", msg)
                 time.sleep(0.25)
                 continue
             logger.info("Socket connected")
             return True
         return False
 
-    def _send_request(self, request: Request):
+    def _send_request(self, request: Request) -> None:
         """Send a request to RR socket."""
         msg = request.json(exclude_none=True)
         self._waiting_send(msg)
 
-    def _waiting_send(self, msg):
+    def _waiting_send(self, msg) -> None:
         """Send a message to RR socket."""
         if self.socket:
             sent = 0
@@ -60,7 +60,8 @@ class Socket:
 
     def _read(self, bytes_size=4096):
         if not self.socket:
-            raise RuntimeError("Socket connection broken.")
+            msg = "Socket connection broken."
+            raise RuntimeError(msg)
         while True:
             char = self.conn.recv(bytes_size).decode()
             self._received_data += char
@@ -77,7 +78,7 @@ class Socket:
         logger.info("Received: %s", resp)
         return resp
 
-    def _close(self):
+    def _close(self) -> None:
         logger.debug("Closing socket.")
         self.socket.close()
         if self.socket is not self.conn:

@@ -1,14 +1,18 @@
 """Module to create request objects for XTB API."""
 
+from __future__ import annotations
+
 from enum import StrEnum
+from typing import TYPE_CHECKING
 
 from xtb_sdk.base_classes import DataModel
-from xtb_sdk.credentials import Credentials
+
+if TYPE_CHECKING:
+    from xtb_sdk.credentials import Credentials
 
 
 class Command(StrEnum):
-    """
-    Enum representing all XTB commands.
+    """Enum representing all XTB commands.
 
     Each command has a string value representing its name.
 
@@ -19,10 +23,10 @@ class Command(StrEnum):
 
 
 class Request(DataModel):
-    """
-    Request object for XTB API.
+    """Request object for XTB API.
 
     Args:
+    ----
         command: XtBCommand
 
     """
@@ -34,4 +38,3 @@ class Request(DataModel):
 if __name__ == "__main__":
     # test Request object creation
     request = Request(command=Command.GET_ALL_SYMBOLS)
-    print(request.dict())

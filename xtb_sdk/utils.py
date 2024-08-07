@@ -11,11 +11,11 @@ def inspect_dataframe(
     data: pd.DataFrame,
     stream: Callable[[str], None] = DEFAULT_STREAMER,
 ) -> None:
-    """
-    Inspect the given DataFrame by printing its head, summary, and descriptive
+    """Inspect the given DataFrame by printing its head, summary, and descriptive
     statistics.
 
     Args:
+    ----
         data (pd.DataFrame): The DataFrame to inspect.
 
     """

@@ -17,12 +17,8 @@ def test_response(json_path: str) -> ResponseSuccess:
 
 
 if __name__ == "__main__":
-    print("Testing responses..." f"\nPath: {RESPONSE_DATA_PATH}")
-
     test_cases = os.listdir(RESPONSE_DATA_PATH)
 
     for test_case in test_cases:
         case_path = os.path.join(RESPONSE_DATA_PATH, test_case)
         validated_response = test_response(case_path)
-
-    print("All tests passed!")

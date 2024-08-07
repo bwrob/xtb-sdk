@@ -1,5 +1,7 @@
 """Module to create response objects for XTB API."""
 
+from __future__ import annotations
+
 from pydantic import Field
 
 from xtb_sdk.base_classes import DataModel

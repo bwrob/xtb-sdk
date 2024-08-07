@@ -1,15 +1,15 @@
 """Custom exceptions for the XTB API."""
 
 
-class ResponseErrorException(Exception):
+class ResponseError(Exception):
     """Error response XTB API."""
 
 
-class LoginErrorException(Exception):
+class LoginError(Exception):
     """Login error response XTB API."""
 
 
-class SocketErrorException(Exception):
+class SocketError(Exception):
     """Socket error response XTB API."""
 
 
