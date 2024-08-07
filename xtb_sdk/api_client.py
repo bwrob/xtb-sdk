@@ -93,7 +93,7 @@ class APIClient(Socket):
                 with open(UNKNOWN_RESPONSE_PATH, FILE_WRITE, encoding=ENCODING) as f:
                     f.write(json.dumps(resp))
                 raise UnknownResponseError(
-                    f"Unknown response, saved to {UNKNOWN_RESPONSE_PATH}"
+                    f"Unknown response, saved to {UNKNOWN_RESPONSE_PATH}",
                 ) from e
 
     @contextmanager
@@ -105,11 +105,11 @@ class APIClient(Socket):
 
         # login to RR socket
         login_response = self.execute(
-            Request(command=Command.LOGIN, arguments=self.__credentials)
+            Request(command=Command.LOGIN, arguments=self.__credentials),
         )
         if not login_response.status:
             raise LoginErrorException(
-                f"Login failed. Error code: {login_response.error_code}"
+                f"Login failed. Error code: {login_response.error_code}",
             )
         self.__stream_session_id = login_response.stream_session_id
         print(f"Login successful - {login_response}")

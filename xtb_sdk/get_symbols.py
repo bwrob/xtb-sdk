@@ -28,12 +28,12 @@ def get_symbols():
 
     if not symbols_response.status:
         raise ResponseErrorException(
-            f"Symbols retrieval failed. Error code: {symbols_response.error_code}"
+            f"Symbols retrieval failed. Error code: {symbols_response.error_code}",
         )
 
     print(
         f"Symbols retrieval successful. "
-        f"Retrived {len(symbols_response.return_data)} symbols."
+        f"Retrived {len(symbols_response.return_data)} symbols.",
     )
     symbols = pd.DataFrame([item.dict() for item in symbols_response.return_data])
 
