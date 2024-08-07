@@ -1,6 +1,7 @@
 """Get all symbols."""
 
 import logging
+from typing import cast
 
 import pandas as pd
 
@@ -27,6 +28,9 @@ def get_symbols() -> None:
         symbols_response = conn.execute(Request(command=Command.GET_ALL_SYMBOLS))
 
     if not symbols_response.status:
+        if not isinstance(symbols_response, ResponseError):
+            logger.error("No status and not a ResponseError")
+        symbols_response = cast(ResponseError, symbols_response)
         msg = f"Symbols retrieval failed. Error code: {symbols_response.error_code}"
         raise ResponseError(
             msg,

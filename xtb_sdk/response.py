@@ -35,4 +35,4 @@ class ResponseStreamSession(Response):
     stream_session_id: str
 
 
-ResponseType = ResponseSuccess | ResponseError | ResponseStreamSession | None
+ResponseType = ResponseSuccess | ResponseError | ResponseStreamSession

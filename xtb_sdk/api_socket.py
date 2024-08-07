@@ -58,7 +58,7 @@ class Socket:
                 logger.info("Sent: %s", msg)
                 time.sleep(API_SEND_TIMEOUT / 1000)
 
-    def _read(self, bytes_size=4096):
+    def _read(self, bytes_size=4096) -> str:
         if not self.socket:
             msg = "Socket connection broken."
             raise RuntimeError(msg)
