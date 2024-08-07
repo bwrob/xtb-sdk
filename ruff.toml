@@ -1,9 +1,18 @@
-exclude = [
-    "__sources",
-]
-
+exclude = ["__sources"]
+extend-include = ["*.ipynb"]
 line-length = 88
+target-version = "py312"
 
 [lint]
 select = ["ALL"]
-ignore = ["D211","COM812","ISC001","D213","D203","FA102",]
+ignore = [
+    "D211",
+    "COM819",
+    "ISC001",
+    "D213",
+    "D203",
+    "FA102",
+]
+
+[format]
+docstring-code-format = true

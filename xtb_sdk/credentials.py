@@ -1,7 +1,6 @@
 """Module to retrieve credentials from a specified path or default location."""
 
 from pathlib import Path
-from typing import Optional
 
 import yaml
 from pydantic import StrictStr
@@ -19,7 +18,7 @@ class Credentials(DataModel):
     password: StrictStr
 
 
-def get_credentials(path: Optional[str] = None) -> Credentials:
+def get_credentials(path: str | None = None) -> Credentials:
     """Function to retrieve credentials from a specified path or default location. If no
     path is provided, the default location is used.
 

@@ -93,7 +93,7 @@ class APIClient(Socket):
             except ValidationError as e:
                 # if we don't know what the response is, save the response to file
                 with Path(UNKNOWN_RESPONSE_PATH).open(
-                    FILE_WRITE, encoding=ENCODING
+                    FILE_WRITE, encoding=ENCODING,
                 ) as file_:
                     _ = file_.write(json.dumps(response))
                 msg = f"Unknown response, saved to {UNKNOWN_RESPONSE_PATH}"

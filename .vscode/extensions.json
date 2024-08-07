@@ -19,7 +19,8 @@
 		"oderwat.indent-rainbow",
         "richie5um2.vscode-sort-json",
         "nicohlr.pycharm",
-        "charliermarsh.ruff"
+        "charliermarsh.ruff",
+        "tamasfe.even-better-toml"
     ],
     "unwantedRecommendations": []
 }

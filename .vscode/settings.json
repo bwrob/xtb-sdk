@@ -25,7 +25,7 @@
     "indentRainbow.includedLanguages": [
         "python"
     ],
-    "indentRainbow.updateDelay": 100,
+    "indentRainbow.updateDelay": 50,
     "jupyter.askForKernelRestart": false,
     "python.languageServer": "None",
     "python.poetryPath": "poetry",
@@ -37,9 +37,21 @@
     "ruff.configuration": "",
     "ruff.configurationPreference": "filesystemFirst",
     "terminal.integrated.mouseWheelZoom": true,
-    "window.zoomLevel": 0,
+    "window.zoomLevel": 0.2,
     "workbench.colorTheme": "PyCharm Night Theme",
     "workbench.iconTheme": "file-icons",
     "workbench.tree.indent": 20,
-    "workbench.tree.renderIndentGuides": "always"
+    "workbench.tree.renderIndentGuides": "always",
+    "zenMode.fullScreen": false,
+    "zenMode.hideLineNumbers": true,
+    "zenMode.showTabs": "multiple",
+    "evenBetterToml.formatter.alignComments": true,
+    "evenBetterToml.formatter.alignEntries": true,
+    "evenBetterToml.formatter.allowedBlankLines": 2,
+    "evenBetterToml.formatter.arrayAutoCollapse": true,
+    "evenBetterToml.formatter.arrayAutoExpand": true,
+    "evenBetterToml.formatter.arrayTrailingComma": true,
+    "evenBetterToml.formatter.columnWidth": 40,
+    "evenBetterToml.formatter.compactArrays": true,
+    "evenBetterToml.formatter.compactEntries": true
 }
