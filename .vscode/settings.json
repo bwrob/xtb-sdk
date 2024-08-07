@@ -1,19 +1,16 @@
 {
     "[python]": {
         "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
             "source.organizeImports": "explicit"
         },
-        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
         "editor.formatOnType": true,
         "editor.rulers": [
             88
         ]
     },
-    "black-formatter.importStrategy": "fromEnvironment",
-    "black-formatter.interpreter": [
-        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
-    ],
     "codeium.enableConfig": {
         "*": true
     },
@@ -25,41 +22,23 @@
     "editor.stickyScroll.enabled": true,
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
-    "flake8.args": [
-        "--max-line-length=88"
-    ],
-    "flake8.importStrategy": "fromEnvironment",
-    "flake8.interpreter": [
-        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
-    ],
     "indentRainbow.includedLanguages": [
         "python"
     ],
     "indentRainbow.updateDelay": 100,
-    "isort.args": [
-        "--profile",
-        "black"
-    ],
     "jupyter.askForKernelRestart": false,
-    "mypy-type-checker.importStrategy": "fromEnvironment",
-    "mypy-type-checker.interpreter": [
-        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
-    ],
-    "pylint.importStrategy": "fromEnvironment",
-    "pylint.interpreter": [
-        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
-    ],
-    "python.languageServer": "Pylance",
+    "python.languageServer": "None",
     "python.poetryPath": "poetry",
     "python.testing.pytestArgs": [
         "tests"
     ],
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
-    "synthwave84.disableGlow": true,
+    "ruff.configuration": "",
+    "ruff.configurationPreference": "filesystemFirst",
     "terminal.integrated.mouseWheelZoom": true,
-    "window.zoomLevel": -0.5,
-    "workbench.colorTheme": "Darcula Pycharm with Dark GUI",
+    "window.zoomLevel": 0,
+    "workbench.colorTheme": "PyCharm Night Theme",
     "workbench.iconTheme": "file-icons",
     "workbench.tree.indent": 20,
     "workbench.tree.renderIndentGuides": "always"
