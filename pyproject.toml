@@ -9,213 +9,32 @@ version = "0.1.0"
 authors = ["bwrob"]
 description = ""
 readme = "README.md"
-packages = [{ include = "xtb_sdk" }, ]
+packages = [{ include = "xtb_sdk" }]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-numpy = "^1.26"
+
+numpy = "^2.1.0"
 pandas = "^2.2.0"
 pydantic = "^2.6.3"
+pandas-stubs = "^2.2.2.240807"
 
 
 [tool.poetry.group.dev.dependencies]
 docformatter = "^1.7.5"
 basedpyright = "^1.15.2"
-ruff = "^0.5.6"
+ruff = "^0.6.1"
 jupyter = "^1.0"
 pre-commit = "^3.5"
-pandas-stubs = "^2.2.0.240218"
-
-
-[tool.black]
-target-version = ["py312"]
-
 
 [tool.docformatter]
 recursive = true
 in-place = true
 black = true
-pre-summary-newline = true
+pre-summary-newline = false
 blank = true
 
-
-[tool.isort]
-profile = "black"
-
-
-[tool.mypy]
-python_version = "3.11"
-warn_return_any = true
-warn_unused_configs = true
-explicit_package_bases = true
-exclude = ['^__source']
-
-
-[tool.pylint.main]
-# Specify a score threshold under which the program will exit with error.
-fail-under = 10
-
-# Use multiple processes to speed up Pylint. Specifying 0 will auto-detect the
-# number of processors available to use, and will cap the count on Windows to
-# avoid hangs.
-jobs = 1
-
-# Pickle collected data for later comparisons.
-persistent = true
-
-# Discover python modules and packages in the file system subtree.
-recursive = true
-
-# When enabled, pylint would attempt to guess common misconfiguration and emit
-# user-friendly hints instead of false-positive error messages.
-suggestion-mode = true
-
-[tool.pylint.basic]
-# Naming style matching correct argument names.
-argument-naming-style = "snake_case"
-
-# Naming style matching correct attribute names.
-attr-naming-style = "snake_case"
-
-# Naming style matching correct class attribute names.
-class-attribute-naming-style = "snake_case"
-
-# Naming style matching correct class constant names.
-class-const-naming-style = "UPPER_CASE"
-
-# Naming style matching correct class names.
-class-naming-style = "PascalCase"
-
-# Naming style matching correct constant names.
-const-naming-style = "UPPER_CASE"
-
-# Naming style matching correct function names.
-function-naming-style = "snake_case"
-
-# Naming style matching correct inline iteration names.
-inlinevar-naming-style = "snake_case"
-
-# Naming style matching correct method names.
-method-naming-style = "snake_case"
-
-# Naming style matching correct module names.
-module-naming-style = "snake_case"
-
-# Naming style matching correct variable names.
-variable-naming-style = "snake_case"
-
-# Good variable names which should always be accepted, separated by a comma.
-good-names = ["i", "j", "k", "_"]
-
-# Minimum line length for functions/classes that require docstrings, shorter ones
-# are exempt.
-docstring-min-length = -1
-
-# Regular expression which should only match function or class names that do not
-# require a docstring.
-no-docstring-rgx = ""
-
-# List of method names used to declare (i.e. assign) instance attributes.
-defining-attr-methods = ["__init__", "__new__", "__post_init__"]
-
-# Maximum number of arguments for function / method.
-max-args = 10
-
-# Maximum number of attributes for a class (see R0902).
-max-attributes = 10
-
-# Maximum number of boolean expressions in an if statement (see R0916).
-max-bool-expr = 5
-
-# Maximum number of branch for function / method body.
-max-branches = 10
-
-# Maximum number of locals for function / method body.
-max-locals = 15
-
-# Maximum number of parents for a class (see R0901).
-max-parents = 7
-
-# Maximum number of public methods for a class (see R0904).
-max-public-methods = 30
-
-# Maximum number of return / yield for function / method body.
-max-returns = 6
-
-# Maximum number of statements in function / method body.
-max-statements = 50
-
-# Minimum number of public methods for a class (see R0903).
-min-public-methods = -1
-
-[tool.pylint.exceptions]
-# Exceptions that will emit a warning when caught.
-overgeneral-exceptions = ["builtins.BaseException", "builtins.Exception"]
-
-# Number of spaces of indent required inside a hanging or continued line.
-indent-after-paren = 4
-
-# String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
-# tab).
-indent-string = "    "
-
-# Maximum number of characters on a single line.
-# Value to be consistent with black tool
-max-line-length = 88
-
-# Maximum number of lines in a module.
-max-module-lines = 999
-
-[tool.pylint.logging]
-# The type of string formatting that logging methods do. `old` means using %
-# formatting, `new` is for `{}` formatting.
-logging-format-style = "old"
-
-# Logging modules to check that the string format arguments are in logging
-# function parameter format.
-logging-modules = ["logging"]
-
-[tool.pylint.miscellaneous]
-# List of note tags to take in consideration, separated by a comma.
-notes = [
-	"FIXME",
-	"TODO",
-]
-
-[tool.pylint."messages control"]
-# Disable the message, report, category or checker with the given id(s).
-disable = [
-    "fixme",
-]
-
-[tool.pylint.refactoring]
-# Maximum number of nested blocks for function / method body
-max-nested-blocks = 4
-
-# Complete name of functions that never returns. When checking for inconsistent-
-# return-statements if a never returning function is called then it will be
-# considered as an explicit return statement and no message will be printed.
-never-returning-functions = ["sys.exit", "argparse.parse_error"]
-
-[tool.pylint.reports]
-# Python expression which should return a score less than or equal to 10.
-evaluation = "max(0, 0 if fatal else 10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10))"
-
-# Activate the evaluation score.
-score = true
-
-[tool.pylint.similarities]
-# Comments are removed from the similarity computation
-ignore-comments = true
-
-# Docstrings are removed from the similarity computation
-ignore-docstrings = true
-
-# Imports are removed from the similarity computation
-ignore-imports = true
-
-# Signatures are removed from the similarity computation
-ignore-signatures = true
-
-# Minimum lines number of a similarity.
-min-similarity-lines = 8
+[tool.basedpyright]
+# many settings are not enabled even in strict mode, which is why basedpyright includes an "all" option
+# you can then decide which rules you want to disable
+typeCheckingMode = "all"
