@@ -1,11 +1,12 @@
 fail_fast: false
 repos:
-  # - repo: https://github.com/astral-sh/ruff-pre-commit
-  #   rev: v0.6.1
-  #   hooks:
-  #     - id: ruff
-  #       args: [--fix]
-  #     - id: ruff-format
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.4
+    hooks:
+      - id: ruff
+        args: [--fix-only, --unsafe-fixes, --config, pyproject.toml]
+      - id: ruff-format
+        args: [--config, pyproject.toml]
   - hooks:
       - id: check-case-conflict
       - id: check-merge-conflict
@@ -20,8 +21,4 @@ repos:
       - id: pretty-format-json
         args: ["--autofix", "--indent=4"]
     repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
-  # - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
-  #   rev: 1.16.0
-  #   hooks:
-  #     - id: basedpyright
+    rev: v5.0.0

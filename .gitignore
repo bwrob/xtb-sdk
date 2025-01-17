@@ -162,5 +162,5 @@ cython_debug/
 *.parquet
 *.pickle
 
-# VSC
+# VSCode
 /.vscode/

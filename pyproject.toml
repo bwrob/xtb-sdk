@@ -1,40 +1,61 @@
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+    requires      = ["poetry-core"]
+    build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry]
-name = "xtb-sdk"
-version = "0.1.0"
-authors = ["bwrob"]
-description = ""
-readme = "README.md"
-packages = [{ include = "xtb_sdk" }]
+    name        = "xtb-sdk"
+    version     = "0.1.0"
+    authors     = ["bwrob"]
+    description = ""
+    readme      = "README.md"
+    packages    = [{ include = "xtb_sdk" }]
 
-[tool.poetry.dependencies]
-python = "^3.12"
+    [tool.poetry.dependencies]
+        python = "^3.12"
 
-numpy = "^2.1.0"
-pandas = "^2.2.0"
-pydantic = "^2.6.3"
-pandas-stubs = "^2.2.2.240807"
+        numpy        = "^2.1.0"
+        pandas       = "^2.2.0"
+        pydantic     = "^2.6.3"
+        pandas-stubs = "^2.2.3.241126"
 
 
-[tool.poetry.group.dev.dependencies]
-docformatter = "^1.7.5"
-basedpyright = "^1.15.2"
-ruff = "^0.6.1"
-jupyter = "^1.0"
-pre-commit = "^3.5"
+    [tool.poetry.group.dev.dependencies]
+        docformatter = "^1.7.5"
+        basedpyright = "^1.15.2"
+        ruff         = "^0.9.2"
+        jupyter      = "^1.0"
+        pre-commit   = "^4.0.1"
+
+[tool.ruff]
+    include        = ["tests/*.py", "xtb-sdk/*.py"]
+    exclude        = ["__sources"]
+    line-length    = 79
+    target-version = "py312"
+
+    [tool.ruff.lint]
+        select = ["ALL"]
+        ignore = [
+            "COM819",
+            "D203",
+            "D211",
+            "D213",
+            "FA102",
+            "ISC001",
+        ]
+
+    [tool.ruff.format]
+        docstring-code-format = true
+
 
 [tool.docformatter]
-recursive = true
-in-place = true
-black = true
-pre-summary-newline = false
-blank = true
+    recursive           = true
+    in-place            = true
+    black               = true
+    pre-summary-newline = false
+    blank               = true
 
 [tool.basedpyright]
-# many settings are not enabled even in strict mode, which is why basedpyright includes an "all" option
-# you can then decide which rules you want to disable
-typeCheckingMode = "all"
+    # many settings are not enabled even in strict mode, which is why basedpyright includes an "all" option
+    # you can then decide which rules you want to disable
+    typeCheckingMode = "all"
