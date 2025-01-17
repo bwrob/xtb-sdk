@@ -1,9 +1,10 @@
 {
     "[python]": {
         "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
             "source.organizeImports": "explicit"
         },
-        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
         "editor.formatOnType": true,
         "editor.rulers": [
@@ -18,7 +19,7 @@
         "*": true
     },
     "editor.cursorSmoothCaretAnimation": "on",
-    "editor.cursorWidth": 3,
+    "editor.cursorWidth": 4,
     "editor.fontLigatures": true,
     "editor.minimap.renderCharacters": false,
     "editor.mouseWheelZoom": true,
@@ -35,32 +36,22 @@
     "indentRainbow.includedLanguages": [
         "python"
     ],
-    "indentRainbow.updateDelay": 100,
-    "isort.args": [
-        "--profile",
-        "black"
-    ],
+    "indentRainbow.updateDelay": 50,
     "jupyter.askForKernelRestart": false,
-    "mypy-type-checker.importStrategy": "fromEnvironment",
-    "mypy-type-checker.interpreter": [
-        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
-    ],
-    "pylint.importStrategy": "fromEnvironment",
-    "pylint.interpreter": [
-        "C:\\Users\\bw200\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\xtb-sdk-CA9YCJn8-py3.11\\Scripts\\python.exe"
-    ],
-    "python.languageServer": "Pylance",
+    "python.languageServer": "None",
     "python.poetryPath": "poetry",
     "python.testing.pytestArgs": [
         "tests"
     ],
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
-    "synthwave84.disableGlow": true,
+    "ruff.configuration": "ruff.toml",
+    "ruff.configurationPreference": "filesystemFirst",
     "terminal.integrated.mouseWheelZoom": true,
-    "window.zoomLevel": -0.5,
-    "workbench.colorTheme": "Darcula Pycharm with Dark GUI",
-    "workbench.iconTheme": "file-icons",
+    "window.zoomLevel": 0.0,
+    "workbench.colorTheme": "Default Dark Modern",
+    "workbench.iconTheme": "vs-seti",
     "workbench.tree.indent": 20,
-    "workbench.tree.renderIndentGuides": "always"
+    "workbench.tree.renderIndentGuides": "always",
+    "zenMode.fullScreen": false
 }

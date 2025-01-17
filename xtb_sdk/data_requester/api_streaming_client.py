@@ -46,7 +46,7 @@ class APIStreamClient(Socket):
                 + str(port)
                 + " after "
                 + str(API_MAX_CONN_TRIES)
-                + " retries"
+                + " retries",
             )
 
         self._running = True
@@ -81,7 +81,7 @@ class APIStreamClient(Socket):
 
     def subscribePrice(self, symbol):
         self.execute(
-            dict(command="getTickPrices", symbol=symbol, streamSessionId=self._ssId)
+            dict(command="getTickPrices", symbol=symbol, streamSessionId=self._ssId),
         )
 
     def subscribePrices(self, symbols):
@@ -105,7 +105,7 @@ class APIStreamClient(Socket):
 
     def unsubscribePrice(self, symbol):
         self.execute(
-            dict(command="stopTickPrices", symbol=symbol, streamSessionId=self._ssId)
+            dict(command="stopTickPrices", symbol=symbol, streamSessionId=self._ssId),
         )
 
     def unsubscribePrices(self, symbols):

@@ -47,7 +47,7 @@ class Socket:
         for _ in range(API_MAX_CONN_TRIES):
             try:
                 self.socket.connect((self._address, self._port))
-            except socket.error as msg:
+            except OSError as msg:
                 logger.error("SockThread Error: %s", msg)
                 time.sleep(0.25)
                 continue

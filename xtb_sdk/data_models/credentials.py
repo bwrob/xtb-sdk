@@ -38,7 +38,7 @@ def resolve_credentials(source: CredentialsSource) -> Credentials:
         path = str(Path.home() / __CREDENTIALS_PATH / __CREDENTIALS_FILE)
 
     try:
-        with open(path, "r", encoding="utf-8") as stream:
+        with open(path, encoding="utf-8") as stream:
             config = yaml.safe_load(stream)
     except FileNotFoundError as exc:
         raise FileNotFoundError(f"File not found: {path}") from exc
