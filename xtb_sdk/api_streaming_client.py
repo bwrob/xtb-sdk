@@ -28,8 +28,8 @@ class APIStreamClient(Socket):
         tradeStatusFun=None,
         profitFun=None,
         newsFun=None,
-    ):
-        super(APIStreamClient, self).__init__(address, port, encrypt)
+    ) -> None:
+        super().__init__(address, port, encrypt)
         self._ssId = ssId
 
         self._tickFun = tickFun
@@ -55,7 +55,7 @@ class APIStreamClient(Socket):
         self._t.setDaemon(True)
         self._t.start()
 
-    def _readStream(self):
+    def _readStream(self) -> None:
         while self._running:
             msg = self._read()
             logger.info("Stream received: " + str(msg))
@@ -72,58 +72,70 @@ class APIStreamClient(Socket):
             elif msg["command"] == "news":
                 self._newsFun(msg)
 
-    def disconnect(self):
+    def disconnect(self) -> None:
         self._running = False
         self._t.join()
         self.close()
 
-    def execute(self, dictionary):
+    def execute(self, dictionary) -> None:
         self._send_request(dictionary)
 
-    def subscribePrice(self, symbol):
+    def subscribePrice(self, symbol) -> None:
         self.execute(
-            dict(command="getTickPrices", symbol=symbol, streamSessionId=self._ssId),
+            {
+                "command": "getTickPrices",
+                "symbol": symbol,
+                "streamSessionId": self._ssId,
+            },
         )
 
-    def subscribePrices(self, symbols):
+    def subscribePrices(self, symbols) -> None:
         for symbolX in symbols:
             self.subscribePrice(symbolX)
 
-    def subscribeTrades(self):
-        self.execute(dict(command="getTrades", streamSessionId=self._ssId))
+    def subscribeTrades(self) -> None:
+        self.execute({"command": "getTrades", "streamSessionId": self._ssId})
 
-    def subscribeBalance(self):
-        self.execute(dict(command="getBalance", streamSessionId=self._ssId))
+    def subscribeBalance(self) -> None:
+        self.execute({"command": "getBalance", "streamSessionId": self._ssId})
 
-    def subscribeTradeStatus(self):
-        self.execute(dict(command="getTradeStatus", streamSessionId=self._ssId))
-
-    def subscribeProfits(self):
-        self.execute(dict(command="getProfits", streamSessionId=self._ssId))
-
-    def subscribeNews(self):
-        self.execute(dict(command="getNews", streamSessionId=self._ssId))
-
-    def unsubscribePrice(self, symbol):
+    def subscribeTradeStatus(self) -> None:
         self.execute(
-            dict(command="stopTickPrices", symbol=symbol, streamSessionId=self._ssId),
+            {"command": "getTradeStatus", "streamSessionId": self._ssId}
         )
 
-    def unsubscribePrices(self, symbols):
+    def subscribeProfits(self) -> None:
+        self.execute({"command": "getProfits", "streamSessionId": self._ssId})
+
+    def subscribeNews(self) -> None:
+        self.execute({"command": "getNews", "streamSessionId": self._ssId})
+
+    def unsubscribePrice(self, symbol) -> None:
+        self.execute(
+            {
+                "command": "stopTickPrices",
+                "symbol": symbol,
+                "streamSessionId": self._ssId,
+            },
+        )
+
+    def unsubscribePrices(self, symbols) -> None:
         for symbolX in symbols:
             self.unsubscribePrice(symbolX)
 
-    def unsubscribeTrades(self):
-        self.execute(dict(command="stopTrades", streamSessionId=self._ssId))
+    def unsubscribeTrades(self) -> None:
+        self.execute({"command": "stopTrades", "streamSessionId": self._ssId})
 
-    def unsubscribeBalance(self):
-        self.execute(dict(command="stopBalance", streamSessionId=self._ssId))
+    def unsubscribeBalance(self) -> None:
+        self.execute({"command": "stopBalance", "streamSessionId": self._ssId})
 
-    def unsubscribeTradeStatus(self):
-        self.execute(dict(command="stopTradeStatus", streamSessionId=self._ssId))
+    def unsubscribeTradeStatus(self) -> None:
+        self.execute(
+            {"command": "stopTradeStatus", "streamSessionId": self._ssId}
+        )
 
-    def unsubscribeProfits(self):
-        self.execute(dict(command="stopProfits", streamSessionId=self._ssId))
+    def unsubscribeProfits(self) -> None:
+        self.execute({"command": "stopProfits", "streamSessionId": self._ssId})
 
-    def unsubscribeNews(self):
-        self.execute(dict(command="stopNews", streamSessionId=self._ssId))
+    def unsubscribeNews(self) -> None:
+        self.execute({"command": "stopNews", "streamSessionId": self._ssId})
