@@ -41,9 +41,8 @@ class APIClient(Socket):
         port: int = DEFAULT_XAPI_PORT,
         encrypt: bool = True,
         debug: bool = False,
-    ):
-        """
-        Constructor for the API client.
+    ) -> None:
+        """Constructor for the API client.
 
         Args:
             credentials: Credentials object
@@ -62,15 +61,14 @@ class APIClient(Socket):
     def stream_session_id(self):
         """Get the stream session id."""
         if self.__stream_session_id is None:
-            print("stream session id is not available")
+            pass
         return self.__stream_session_id
 
     def execute(
         self,
         request: Request,
     ) -> ResponseType:
-        """
-        Execute a request.
+        """Execute a request.
 
         Args:
             request: Request object
@@ -79,7 +77,7 @@ class APIClient(Socket):
         self._send_request(request)
         resp = self._read()
         if self.__debug:
-            print(resp)
+            pass
         try:
             if request.command == Command.LOGIN:
                 return ResponseStreamSession.model_validate(resp)
@@ -90,10 +88,13 @@ class APIClient(Socket):
                 return ResponseError.model_validate(resp)
             except ValidationError as e:
                 # if we don't know what the response is, save the response to file
-                with open(UNKNOWN_RESPONSE_PATH, FILE_WRITE, encoding=ENCODING) as f:
+                with open(
+                    UNKNOWN_RESPONSE_PATH, FILE_WRITE, encoding=ENCODING
+                ) as f:
                     f.write(json.dumps(resp))
+                msg = f"Unknown response, saved to {UNKNOWN_RESPONSE_PATH}"
                 raise UnknownResponseError(
-                    f"Unknown response, saved to {UNKNOWN_RESPONSE_PATH}",
+                    msg,
                 ) from e
 
     @contextmanager
@@ -101,21 +102,21 @@ class APIClient(Socket):
         """Context manager for the API client."""
         # connect to RR socket
         if not self._connect():
-            raise ConnectionError(f"Cannot connect to {self._address} : {self._port}.")
+            msg = f"Cannot connect to {self._address} : {self._port}."
+            raise ConnectionError(msg)
 
         # login to RR socket
         login_response = self.execute(
             Request(command=Command.LOGIN, arguments=self.__credentials),
         )
         if not login_response.status:
+            msg = f"Login failed. Error code: {login_response.error_code}"
             raise LoginErrorException(
-                f"Login failed. Error code: {login_response.error_code}",
+                msg,
             )
         self.__stream_session_id = login_response.stream_session_id
-        print(f"Login successful - {login_response}")
 
         try:
             yield self
         finally:
             self._close()
-            print("Connection closed.")

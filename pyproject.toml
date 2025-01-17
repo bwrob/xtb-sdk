@@ -32,14 +32,15 @@
         ruff         = "^0.9.2"
 
 [tool.ruff]
-    include        = ["tests/*.py", "xtb-sdk/*.py"]
+    include        = ["tests/*.py", "xtb_sdk/*.py"]
     exclude        = ["__sources"]
     line-length    = 79
-    target-version = "py313"
+    target-version = "py311"
 
     [tool.ruff.lint]
         select = ["ALL"]
         ignore = [
+            "COM812",
             "COM819",
             "D203",
             "D211",
