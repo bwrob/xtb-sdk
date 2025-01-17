@@ -12,8 +12,7 @@ logger = get_logger()
 def inspect_dataframe(
     data: pd.DataFrame,
 ) -> None:
-    """
-    Inspect the given DataFrame by printing its head, summary, and descriptive
+    """Inspect the given DataFrame by printing its head, summary, and descriptive
     statistics.
 
     Args:

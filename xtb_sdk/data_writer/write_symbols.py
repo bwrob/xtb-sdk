@@ -9,8 +9,7 @@ logger = get_logger()
 
 
 def write_symbols(credentials_source: CredentialsSource = None) -> None:
-    """
-    Writes symbol data to a CSV file.
+    """Writes symbol data to a CSV file.
 
     Args:
         credentials_source: The source of credentials (default is None).
@@ -19,7 +18,6 @@ def write_symbols(credentials_source: CredentialsSource = None) -> None:
         None
 
     """
-
     with DataRequester(credentials_source) as requester:
         symbols = requester.get_symbols()
 

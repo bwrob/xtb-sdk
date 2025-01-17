@@ -1,7 +1,7 @@
 """Module for the XTB API client."""
 
 from types import TracebackType
-from typing import Self
+from typing import TYPE_CHECKING, Self
 
 import pandas as pd
 
@@ -13,10 +13,12 @@ from xtb_sdk.data_models.credentials import (
 from xtb_sdk.data_models.request import Command, Request
 from xtb_sdk.data_models.response import ResponseError
 from xtb_sdk.data_requester.api_client import APIClient
-from xtb_sdk.data_requester.api_streaming_client import APIStreamClient
 from xtb_sdk.utils.df_utils import inspect_dataframe
 from xtb_sdk.utils.exceptions import ResponseErrorException
 from xtb_sdk.utils.logging import get_logger
+
+if TYPE_CHECKING:
+    from xtb_sdk.data_requester.api_streaming_client import APIStreamClient
 
 logger = get_logger()
 
@@ -27,9 +29,8 @@ class DataRequester:
     def __init__(
         self,
         credentials_source: CredentialsSource = None,
-    ):
-        """
-        Constructor for the API client.
+    ) -> None:
+        """Constructor for the API client.
 
         Args:
             credentials: Credentials object
@@ -56,10 +57,12 @@ class DataRequester:
         return self
 
     def __exit__(
-        self, exc_type: type, exc_value: BaseException, traceback: TracebackType
+        self,
+        exc_type: type,
+        exc_value: BaseException,
+        traceback: TracebackType,
     ) -> None:
-        """
-        Exit context manager for the API client.
+        """Exit context manager for the API client.
 
         Args:
             exc_type: Type of the exception that caused the context manager to exit
@@ -95,18 +98,21 @@ class DataRequester:
         """Run main."""
         # enter your login credentials here
 
-        symbols_response = self.client.execute(Request(command=Command.GET_ALL_SYMBOLS))
+        symbols_response = self.client.execute(
+            Request(command=Command.GET_ALL_SYMBOLS)
+        )
 
         if isinstance(symbols_response, ResponseError):
-            raise ResponseErrorException(
-                f"Symbols retrieval failed. Error code: {symbols_response.error_code}"
-            )
+            msg = f"Symbols retrieval failed. Error code: {symbols_response.error_code}"
+            raise ResponseErrorException(msg)
 
         logger.info(
             "Symbols retrieval successful.\n Retrived %s symbols.",
             len(symbols_response.return_data),
         )
 
-        symbols = pd.DataFrame([item.dict() for item in symbols_response.return_data])
+        symbols = pd.DataFrame(
+            [item.dict() for item in symbols_response.return_data]
+        )
         inspect_dataframe(symbols)
         return symbols

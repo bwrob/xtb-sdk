@@ -18,7 +18,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def enable_debug_mode():
+def enable_debug_mode() -> None:
     """Enable debug mode."""
     for name in (
         __LOGGER_NAME,

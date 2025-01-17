@@ -34,8 +34,7 @@ class APIClient(Socket):
         self,
         request: Request,
     ) -> ResponseType:
-        """
-        Execute a request.
+        """Execute a request.
 
         Args:
             request: Request object
@@ -54,15 +53,15 @@ class APIClient(Socket):
                 return ResponseError.model_validate(resp)
             except ValidationError as e:
                 # if we don't know what the response is, save the response to file
-                with open(UNKNOWN_RESPONSE_PATH, FILE_WRITE, encoding=ENCODING) as f:
+                with open(
+                    UNKNOWN_RESPONSE_PATH, FILE_WRITE, encoding=ENCODING
+                ) as f:
                     f.write(json.dumps(resp))
-                raise UnknownResponseError(
-                    f"Unknown response, saved to {UNKNOWN_RESPONSE_PATH}"
-                ) from e
+                msg = f"Unknown response, saved to {UNKNOWN_RESPONSE_PATH}"
+                raise UnknownResponseError(msg) from e
 
     def connect(self, credentials: Credentials) -> StreamSessionId:
-        """
-        Context manager for the API client.
+        """Context manager for the API client.
 
         Args:
             credentials: Credentials object
@@ -70,7 +69,8 @@ class APIClient(Socket):
         """
         # connect to RR socket
         if not self._connect():
-            raise ConnectionError(f"Cannot connect to {self._address} : {self._port}.")
+            msg = f"Cannot connect to {self._address} : {self._port}."
+            raise ConnectionError(msg)
 
         logger.info("Socket connected")
 
@@ -81,20 +81,19 @@ class APIClient(Socket):
 
         if isinstance(login_response, ResponseError):
             logger.error("Login failed - %s", login_response)
-            raise LoginErrorException(
-                f"Login failed. Error code: {login_response.error_code}"
-            )
+            msg = f"Login failed. Error code: {login_response.error_code}"
+            raise LoginErrorException(msg)
 
         if isinstance(login_response, ResponseStreamSession):
             logger.info("Login successful - %s", login_response)
             return login_response.stream_session_id
 
-        raise UnexpectedResponseError(
-            f"Unexpected bahaviour recived response - {login_response}"
-        )
+        msg = f"Unexpected bahaviour recived response - {login_response}"
+        raise UnexpectedResponseError(msg)
 
     def close(self) -> None:
         """Closes the connection and logs the closure of the connection to the RR
-        socket."""
+        socket.
+        """
         self._close()
         logger.info("Connection to RR socket closed.")

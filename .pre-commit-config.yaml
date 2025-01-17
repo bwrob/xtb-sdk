@@ -1,12 +1,13 @@
+---
 fail_fast: false
 repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
+  - hooks:
+      - args: [--fix-only, --unsafe-fixes, --config, pyproject.toml]
+        id: ruff
+      - args: [--config, pyproject.toml]
+        id: ruff-format
+    repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.9.2
-    hooks:
-      - id: ruff
-        args: [--fix-only, --unsafe-fixes, --config, pyproject.toml]
-      - id: ruff-format
-        args: [--config, pyproject.toml]
   - hooks:
       - id: check-case-conflict
       - id: check-merge-conflict
@@ -18,7 +19,7 @@ repos:
       - id: check-xml
       - id: check-toml
       - id: no-commit-to-branch
-      - id: pretty-format-json
-        args: ["--autofix", "--indent=4"]
+      - args: ["--autofix", "--indent=4"]
+        id: pretty-format-json
     repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0

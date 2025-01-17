@@ -6,7 +6,9 @@ import os
 from xtb_sdk.data_models.response import ResponseSuccess
 from xtb_sdk.utils.consts import ENCODING, FILE_READ
 
-RESPONSE_DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "responses")
+RESPONSE_DATA_PATH = os.path.join(
+    os.path.dirname(__file__), "data", "responses"
+)
 
 
 def test_response(json_path: str) -> ResponseSuccess:
@@ -17,12 +19,8 @@ def test_response(json_path: str) -> ResponseSuccess:
 
 
 if __name__ == "__main__":
-    print("Testing responses..." f"\nPath: {RESPONSE_DATA_PATH}")
-
     test_cases = os.listdir(RESPONSE_DATA_PATH)
 
     for test_case in test_cases:
         case_path = os.path.join(RESPONSE_DATA_PATH, test_case)
         validated_response = test_response(case_path)
-
-    print("All tests passed!")

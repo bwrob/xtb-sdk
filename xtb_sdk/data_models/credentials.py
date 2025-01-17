@@ -23,8 +23,7 @@ CredentialsSource = Credentials | str | PathLike | None
 
 
 def resolve_credentials(source: CredentialsSource) -> Credentials:
-    """
-    Function to retrieve credentials from a specified path or default location. If no
+    """Function to retrieve credentials from a specified path or default location. If no
     path is provided, the default location is used.
 
     Args:
@@ -41,6 +40,7 @@ def resolve_credentials(source: CredentialsSource) -> Credentials:
         with open(path, encoding="utf-8") as stream:
             config = yaml.safe_load(stream)
     except FileNotFoundError as exc:
-        raise FileNotFoundError(f"File not found: {path}") from exc
+        msg = f"File not found: {path}"
+        raise FileNotFoundError(msg) from exc
 
     return Credentials(**config)
