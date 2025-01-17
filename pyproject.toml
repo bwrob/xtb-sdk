@@ -21,11 +21,11 @@
         sqlalchemy   = "^2.0.37"
         sqlmodel     = "^0.0.22"
         sqlparse     = "^0.5.3"
+        rich         = "^13.9.4"
 
 
     [tool.poetry.group.dev.dependencies]
         basedpyright = "^1.15.2"
-        docformatter = "^1.7.5"
         jupyter      = "^1.0"
         poethepoet   = "^0.32.1"
         pre-commit   = "^4.0.1"
@@ -51,14 +51,6 @@
 
     [tool.ruff.format]
         docstring-code-format = true
-
-
-[tool.docformatter]
-    recursive           = true
-    in-place            = true
-    black               = true
-    pre-summary-newline = false
-    blank               = true
 
 [tool.basedpyright]
     typeCheckingMode = "all"
