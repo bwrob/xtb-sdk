@@ -16,7 +16,7 @@ FORMAT = "[%(asctime)-15s][%(funcName)s:%(lineno)d] %(message)s"
 logging.basicConfig(format=FORMAT)
 
 
-def get_symbols() -> None:
+def get_symbols():
     """Run main."""
     # enter your login credentials here
     credentials = get_credentials()
@@ -24,19 +24,18 @@ def get_symbols() -> None:
     # create & connect to RR socket
     client = APIClient(credentials, debug=False)
     with client.connection() as conn:
-        symbols_response = conn.execute(
-            Request(command=Command.GET_ALL_SYMBOLS)
-        )
+        symbols_response = conn.execute(Request(command=Command.GET_ALL_SYMBOLS))
 
     if not symbols_response.status:
-        msg = f"Symbols retrieval failed. Error code: {symbols_response.error_code}"
         raise ResponseErrorException(
-            msg,
+            f"Symbols retrieval failed. Error code: {symbols_response.error_code}",
         )
 
-    symbols = pd.DataFrame(
-        [item.dict() for item in symbols_response.return_data]
+    print(
+        f"Symbols retrieval successful. "
+        f"Retrived {len(symbols_response.return_data)} symbols.",
     )
+    symbols = pd.DataFrame([item.dict() for item in symbols_response.return_data])
 
     inspect_dataframe(symbols)
 

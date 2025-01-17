@@ -1,6 +1,7 @@
 """Module to retrieve credentials from a specified path or default location."""
 
 from pathlib import Path
+from typing import Optional
 
 import yaml
 from pydantic import StrictStr
@@ -18,8 +19,9 @@ class Credentials(DataModel):
     password: StrictStr
 
 
-def get_credentials(path: str | None = None) -> Credentials:
-    """Function to retrieve credentials from a specified path or default location. If no
+def get_credentials(path: Optional[str] = None) -> Credentials:
+    """
+    Function to retrieve credentials from a specified path or default location. If no
     path is provided, the default location is used.
 
     Args:
@@ -36,11 +38,11 @@ def get_credentials(path: str | None = None) -> Credentials:
         with open(path, encoding="utf-8") as stream:
             config = yaml.safe_load(stream)
     except FileNotFoundError as exc:
-        msg = f"File not found: {path}"
-        raise FileNotFoundError(msg) from exc
+        raise FileNotFoundError(f"File not found: {path}") from exc
 
     return Credentials(**config)
 
 
 if __name__ == "__main__":
     cred = get_credentials()
+    print(cred.dict(by_alias=True))

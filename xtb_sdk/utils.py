@@ -1,6 +1,6 @@
 """Utility functions."""
 
-from collections.abc import Callable
+from typing import Callable
 
 import pandas as pd
 
@@ -11,7 +11,8 @@ def inspect_dataframe(
     data: pd.DataFrame,
     stream: Callable[[str], None] = DEFAULT_STREAMER,
 ) -> None:
-    """Inspect the given DataFrame by printing its head, summary, and descriptive
+    """
+    Inspect the given DataFrame by printing its head, summary, and descriptive
     statistics.
 
     Args:
